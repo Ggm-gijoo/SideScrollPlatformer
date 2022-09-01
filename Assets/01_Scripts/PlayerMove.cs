@@ -132,8 +132,9 @@ public class PlayerMove : MonoBehaviour
 
     public void Attack()
     {
-        if (Input.GetMouseButtonDown(0) && isLand)
+        if (Input.GetMouseButtonDown(0) && isLand && IsCanAct(5))
         {
+            playerNowStamina -= 5;
             playerAnim.SetInteger("TriggerNumber", (int)AnimState.Attack);
             if (attackMove >= 6)
             {
