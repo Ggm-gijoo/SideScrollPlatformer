@@ -4,6 +4,7 @@ using UnityEngine;
 
 enum AnimState
 {
+    Attack = 4,
     GetHit = 12,
     Dodge = 28,
     Jump = 18,
@@ -30,6 +31,7 @@ public class PlayerMove : MonoBehaviour
     public float playerNowStamina;
 
     private int jumpCount = 0;
+    private int attackMove = 0;
 
     private bool isAct = false;
     private bool isCanDash = false;
@@ -54,6 +56,7 @@ public class PlayerMove : MonoBehaviour
     {
         Move();
         Jump();
+        Attack();
 
         if(Input.GetKeyDown(KeyCode.Q))
         {
@@ -125,6 +128,21 @@ public class PlayerMove : MonoBehaviour
             playerAnim.SetTrigger("Trigger");
         }
         playerAnim.SetInteger("Jumping", jumpCount);
+    }
+
+    public void Attack()
+    {
+        if (Input.GetMouseButtonDown(0) && playerAnim.GetInteger("Jump") == 0)
+        {
+            playerAnim.SetInteger("TriggerNumber", (int)AnimState.Attack);
+            if (attackMove >= 6)
+            {
+                attackMove = 0;
+            }
+            attackMove++;
+            playerAnim.SetInteger("Action", attackMove);
+            playerAnim.SetTrigger("Trigger");
+        }
     }
 
     public IEnumerator Dash()
