@@ -764,6 +764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStatus: {fileID: 11400000, guid: a63de73f63f8bc74095186aee87d2e8a, type: 2}
+  weapon: {fileID: 1638995933}
   playerNowHp: 0
   playerNowMp: 0
   playerNowStamina: 0
@@ -945,6 +946,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1453860060}
   m_CullTransparentMesh: 1
+--- !u!1 &1638995933 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 629156792, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+  m_PrefabInstance: {fileID: 544063458}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1680864921
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,6 +19,9 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField]
     private PlayerStatus playerStatus;
+    [SerializeField]
+    GameObject weapon;
+    Renderer weaponRenderer;
     private Animator playerAnim;
     private Rigidbody playerRigid;
 
@@ -33,10 +36,13 @@ public class PlayerMove : MonoBehaviour
     private bool isDash = false;
     private bool isLand = false;
 
+    WeaponState weaponState = WeaponState.None;
+
     private void Start()
     {
         playerAnim = GetComponentInChildren<Animator>();
         playerRigid = GetComponent<Rigidbody>();
+        weaponRenderer = weapon.GetComponent<Renderer>();
 
         playerNowHp = playerStatus.Hp;
         playerNowMp = playerStatus.Mp;
@@ -48,6 +54,20 @@ public class PlayerMove : MonoBehaviour
     {
         Move();
         Jump();
+
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            if(weaponState == WeaponState.None)
+            {
+                StartCoroutine(SummonWeapon());
+            }
+            else
+            {
+                StartCoroutine(DisarmedWeapon());
+            }
+        }
+
+        playerAnim.SetInteger("Weapon", (int)weaponState);
     }
 
     public bool IsCanAct(float useStamina)
@@ -130,6 +150,35 @@ public class PlayerMove : MonoBehaviour
                 Debug.Log($"현재 스태미나 : {playerNowStamina}");
                 playerNowStamina += 0.5f;
                 yield return new WaitForSeconds(0.05f);
+            }
+        }
+    }
+
+    public IEnumerator SummonWeapon()
+    {
+        float timer = 1f;
+        while (weaponRenderer.material.GetFloat("_Float") >= -1)
+        {
+            yield return new WaitForSeconds(0.05f);
+            timer -= 0.05f;
+            weaponRenderer.material.SetFloat("_Float", timer);
+            if(weaponRenderer.material.GetFloat("_Float") <= -0.3f)
+            {
+                weaponState = WeaponState.Sword;
+            }
+        }
+    }
+    public IEnumerator DisarmedWeapon()
+    {
+        float timer = 0f;
+        while (weaponRenderer.material.GetFloat("_Float") <= 1)
+        {
+            yield return new WaitForSeconds(0.05f);
+            timer += 0.1f;
+            weaponRenderer.material.SetFloat("_Float", timer);
+            if (weaponRenderer.material.GetFloat("_Float") >= 0.7f)
+            {
+                weaponState = WeaponState.None;
             }
         }
     }
