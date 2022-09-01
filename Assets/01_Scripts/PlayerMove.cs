@@ -26,9 +26,12 @@ public class PlayerMove : MonoBehaviour
     public float playerNowMp;
     public float playerNowStamina;
 
+    private int jumpCount = 0;
+
     private bool isAct = false;
     private bool isCanDash = false;
     private bool isDash = false;
+    private bool isLand = false;
 
     private void Start()
     {
@@ -86,14 +89,22 @@ public class PlayerMove : MonoBehaviour
 
     public void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) /*&& playerRigid.velocity.y < 1*/)
+        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 3)
         {
-            Debug.Log("점프시도");
-            //playerRigid.AddForce(Vector3.up * playerStatus.JumpForce * 100, ForceMode.Impulse);
+            isLand = false;
+            if(jumpCount == 0)
+            {
+                jumpCount += 2;
+            }
+            else
+            jumpCount++;
+            playerAnim.SetInteger("Jumping", jumpCount);
+
+            playerAnim.SetInteger("TriggerNumber", (int)AnimState.Jump);
+            playerRigid.AddForce(Vector3.up * playerStatus.JumpForce * 100, ForceMode.Impulse);
             playerAnim.SetTrigger("Trigger");
-            playerAnim.SetFloat("TriggerNumber", 18);
-            playerAnim.SetFloat("Jumping", 1);
         }
+        playerAnim.SetInteger("Jumping", jumpCount);
     }
 
     public IEnumerator Dash()
@@ -120,6 +131,16 @@ public class PlayerMove : MonoBehaviour
                 playerNowStamina += 0.5f;
                 yield return new WaitForSeconds(0.05f);
             }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.CompareTag("Ground") && !isLand)
+        {
+            isLand = true;
+            playerAnim.SetTrigger("Trigger");
+            jumpCount = 0;
         }
     }
 }
