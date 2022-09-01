@@ -132,7 +132,7 @@ public class PlayerMove : MonoBehaviour
 
     public void Attack()
     {
-        if (Input.GetMouseButtonDown(0) && playerAnim.GetInteger("Jump") == 0)
+        if (Input.GetMouseButtonDown(0) && isLand)
         {
             playerAnim.SetInteger("TriggerNumber", (int)AnimState.Attack);
             if (attackMove >= 6)
