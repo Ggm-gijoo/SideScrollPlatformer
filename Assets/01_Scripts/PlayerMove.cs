@@ -152,7 +152,7 @@ public class PlayerMove : MonoBehaviour
                 playerAnim.SetTrigger("Trigger", () =>
                 {
                     isAttack = false;
-                }, (float)weaponState * 0.2f + 0.5f
+                }, (float)weaponState * 0.5f + 0.5f
                 );
             }
         }
