@@ -632,8 +632,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1147110881}
   playerStatus: {fileID: 11400000, guid: a63de73f63f8bc74095186aee87d2e8a, type: 2}
-  hpBarImage: {fileID: 0}
-  mpBarImage: {fileID: 0}
+  hpBarImage: {fileID: 1358570428}
+  mpBarImage: {fileID: 2055551453}
   staminaBarImage: {fileID: 442284531}
 --- !u!4 &831738449
 Transform:
@@ -712,7 +712,7 @@ MonoBehaviour:
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -1075,7 +1075,7 @@ MonoBehaviour:
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -1227,7 +1227,7 @@ MonoBehaviour:
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -1414,7 +1414,7 @@ MonoBehaviour:
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0

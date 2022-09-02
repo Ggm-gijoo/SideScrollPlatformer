@@ -28,5 +28,7 @@ public class BarManager : MonoBehaviour
     private void Update()
     {
         staminaBarImage.fillAmount = playerMove.playerNowStamina / playerStatus.Stamina;
+        hpBarImage.fillAmount = playerMove.playerNowHp / playerStatus.Hp;
+        mpBarImage.fillAmount = playerMove.playerNowMp / playerStatus.Mp;
     }
 }

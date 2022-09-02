@@ -188,14 +188,18 @@ public class PlayerMove : MonoBehaviour
     public IEnumerator SummonWeapon()
     {
         float timer = 1f;
-        while (weaponRenderer.material.GetFloat("_Float") >= -1)
+        if (playerNowMp >= 20f)
         {
-            yield return new WaitForSeconds(0.05f);
-            timer -= 0.05f;
-            weaponRenderer.material.SetFloat("_Float", timer);
-            if(weaponRenderer.material.GetFloat("_Float") <= -0.3f)
+            playerNowMp -= 20f;
+            while (weaponRenderer.material.GetFloat("_Float") >= -1)
             {
-                weaponState = WeaponState.Sword;
+                yield return new WaitForSeconds(0.05f);
+                timer -= 0.05f;
+                weaponRenderer.material.SetFloat("_Float", timer);
+                if (weaponRenderer.material.GetFloat("_Float") <= -0.3f)
+                {
+                    weaponState = WeaponState.Sword;
+                }
             }
         }
     }
