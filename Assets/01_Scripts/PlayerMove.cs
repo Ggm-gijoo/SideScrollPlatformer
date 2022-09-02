@@ -34,6 +34,7 @@ public class PlayerMove : MonoBehaviour
     private int attackMove = 0;
 
     private bool isAct = false;
+    private bool isAttack = false;
     private bool isCanDash = false;
     private bool isDash = false;
     private bool isLand = false;
@@ -54,8 +55,11 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update()
     {
-        Move();
-        Jump();
+        if (!isAttack)
+        {
+            Move();
+            Jump();
+        }
         Attack();
 
         if(Input.GetKeyDown(KeyCode.Q))
@@ -132,8 +136,9 @@ public class PlayerMove : MonoBehaviour
 
     public void Attack()
     {
-        if (Input.GetMouseButtonDown(0) && isLand && IsCanAct(5))
+        if (Input.GetMouseButtonDown(0) && isLand && IsCanAct(5) && !isAttack)
         {
+            isAttack = true;
             playerNowStamina -= 5;
             playerAnim.SetInteger("TriggerNumber", (int)AnimState.Attack);
             if (attackMove >= 6)
@@ -142,7 +147,11 @@ public class PlayerMove : MonoBehaviour
             }
             attackMove++;
             playerAnim.SetInteger("Action", attackMove);
-            playerAnim.SetTrigger("Trigger");
+            playerAnim.SetTrigger("Trigger", () =>
+            {
+                Debug.Log("AAAAAAAAAAAAA");
+                isAttack = false;
+            },(float)weaponState * 0.2f + 0.5f);
         }
     }
 
