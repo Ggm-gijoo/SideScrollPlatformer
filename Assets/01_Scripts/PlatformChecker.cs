@@ -44,7 +44,7 @@ public class PlatformChecker : MonoBehaviour
     {
         if(collision.collider.CompareTag("Player"))
         {
-            if(Input.GetKeyDown(KeyCode.S)||Input.GetKeyDown(KeyCode.DownArrow))
+            if(Input.GetKey(KeyCode.S)||Input.GetKey(KeyCode.DownArrow))
             {
                 isTriggered = true;
                 thisColl.isTrigger = true;
