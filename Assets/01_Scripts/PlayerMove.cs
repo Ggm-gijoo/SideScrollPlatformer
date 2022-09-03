@@ -23,7 +23,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     GameObject weapon;
     Renderer weaponRenderer;
-    private Animator playerAnim;
+    public Animator playerAnim;
     private CharacterController playerController;
 
     public float playerNowHp;
@@ -32,6 +32,7 @@ public class PlayerMove : MonoBehaviour
 
     private int jumpCount = 0;
     private int attackMove = 0;
+    private float yDir = 0;
 
     private bool isAct = false;
     private bool isAttack = false;
@@ -63,7 +64,8 @@ public class PlayerMove : MonoBehaviour
             Jump();
         }
         Attack();
-        moveDir.y -= 16.7f * Time.deltaTime;
+        if(!playerController.isGrounded)
+        yDir += Physics.gravity.y * Time.deltaTime;
         playerController.Move(moveDir * Time.deltaTime);
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -101,12 +103,12 @@ public class PlayerMove : MonoBehaviour
         if (isCanDash)
         {
             StartCoroutine(Dash());
-            moveDir = new Vector3(h * playerStatus.MoveSpd * 2f, 0, 0);
+            moveDir = new Vector3(h * playerStatus.MoveSpd * 2f, yDir, 0);
         }
         else
         {
             isDash = false;
-            moveDir = new Vector3(h * playerStatus.MoveSpd, 0, 0);
+            moveDir = new Vector3(h * playerStatus.MoveSpd, yDir, 0);
         }
 
         if (Mathf.Abs(h) > Mathf.Epsilon)
@@ -121,8 +123,8 @@ public class PlayerMove : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 3)
         {
-            isLand = false;
-            if(jumpCount == 0)
+            yDir = playerStatus.JumpForce;
+            if (jumpCount == 0)
             {
                 jumpCount += 2;
             }
@@ -131,8 +133,8 @@ public class PlayerMove : MonoBehaviour
             playerAnim.SetInteger("Jumping", jumpCount);
 
             playerAnim.SetInteger("TriggerNumber", (int)AnimState.Jump);
-            moveDir.y = playerStatus.JumpForce;
             playerAnim.SetTrigger("Trigger");
+            isLand = false;
         }
         playerAnim.SetInteger("Jumping", jumpCount);
     }
@@ -220,14 +222,13 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if(collision.collider.CompareTag("Ground") && !isLand)
+        if(!isLand && playerController.isGrounded)
         {
             isLand = true;
-            playerAnim.SetTrigger("Trigger");
             jumpCount = 0;
+            playerAnim.SetTrigger("Trigger");
         }
     }
 }

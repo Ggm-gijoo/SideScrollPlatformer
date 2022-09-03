@@ -369,7 +369,23 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 13681452, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+      propertyPath: m_Height
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 13681452, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+      propertyPath: m_Radius
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 13681452, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 13681452, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+      propertyPath: m_Center.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 13681452, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 631420160, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
@@ -380,6 +396,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5017534650380093289, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 0}
@@ -387,8 +407,11 @@ PrefabInstance:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-    - {fileID: 283400044, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+    - {fileID: 0}
+    - {fileID: 3668655356348723783, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+    - {fileID: 0}
     - {fileID: 5400000, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+    - {fileID: 13681452, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
 --- !u!1 &635770275
 GameObject:
@@ -606,6 +629,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationClips: []
+--- !u!4 &814801731 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5017534650379737865, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+  m_PrefabInstance: {fileID: 544063458}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &831738447
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,6 +896,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStatus: {fileID: 11400000, guid: a63de73f63f8bc74095186aee87d2e8a, type: 2}
   weapon: {fileID: 1638995933}
+  playerAnim: {fileID: 0}
   playerNowHp: 0
   playerNowMp: 0
   playerNowStamina: 0
@@ -1015,13 +1044,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324051079}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1147110881}
-  m_RootOrder: 1
+  m_Father: {fileID: 814801731}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1324051081
 BoxCollider:
