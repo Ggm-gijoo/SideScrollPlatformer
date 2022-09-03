@@ -31,7 +31,7 @@ public class PlayerMove : MonoBehaviour
     public float playerNowMp;
     public float playerNowStamina;
 
-    private int jumpCount = 0;
+    public int jumpCount = 0;
     private int attackMove = 0;
     //private float yDir = 0;
 
@@ -39,7 +39,7 @@ public class PlayerMove : MonoBehaviour
     private bool isAttack = false;
     private bool isCanDash = false;
     private bool isDash = false;
-    private bool isLand = false;
+    public bool isLand = false;
 
     //Vector3 moveDir = Vector3.zero;
 
