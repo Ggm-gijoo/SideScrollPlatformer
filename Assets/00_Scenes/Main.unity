@@ -368,6 +368,10 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 13681452, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 631420160, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -384,6 +388,7 @@ PrefabInstance:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 283400044, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+    - {fileID: 5400000, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
 --- !u!1 &635770275
 GameObject:
@@ -871,6 +876,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400004, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
   m_PrefabInstance: {fileID: 544063458}
   m_PrefabAsset: {fileID: 0}
+--- !u!143 &1147110882
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147110876}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2.5
+  m_Radius: 0.6
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!1 &1221479116
 GameObject:
   m_ObjectHideFlags: 0

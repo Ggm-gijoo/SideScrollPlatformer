@@ -24,7 +24,7 @@ public class PlayerMove : MonoBehaviour
     GameObject weapon;
     Renderer weaponRenderer;
     private Animator playerAnim;
-    private Rigidbody playerRigid;
+    private CharacterController playerController;
 
     public float playerNowHp;
     public float playerNowMp;
@@ -39,12 +39,14 @@ public class PlayerMove : MonoBehaviour
     private bool isDash = false;
     private bool isLand = false;
 
+    Vector3 moveDir = Vector3.zero;
+
     WeaponState weaponState = WeaponState.None;
 
     private void Start()
     {
         playerAnim = GetComponentInChildren<Animator>();
-        playerRigid = GetComponent<Rigidbody>();
+        playerController = GetComponent<CharacterController>();
         weaponRenderer = weapon.GetComponent<Renderer>();
 
         playerNowHp = playerStatus.Hp;
@@ -61,8 +63,10 @@ public class PlayerMove : MonoBehaviour
             Jump();
         }
         Attack();
+        moveDir.y -= 16.7f * Time.deltaTime;
+        playerController.Move(moveDir * Time.deltaTime);
 
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             if(weaponState == WeaponState.None)
             {
@@ -73,7 +77,6 @@ public class PlayerMove : MonoBehaviour
                 StartCoroutine(DisarmedWeapon());
             }
         }
-
         playerAnim.SetInteger("Weapon", (int)weaponState);
     }
 
@@ -89,7 +92,7 @@ public class PlayerMove : MonoBehaviour
     public void Move()
     {
         float h = Input.GetAxisRaw("Horizontal") * 0.5f;
-        playerAnim.SetFloat("Velocity Z", playerRigid.velocity.x / playerStatus.MoveSpd);
+        playerAnim.SetFloat("Velocity Z", playerController.velocity.x / playerStatus.MoveSpd);
         int playerDir = (int)Mathf.Sign(h);
 
         isCanDash = Input.GetKey(KeyCode.LeftShift) && Mathf.Abs(h) > Mathf.Epsilon && IsCanAct(1);
@@ -98,12 +101,12 @@ public class PlayerMove : MonoBehaviour
         if (isCanDash)
         {
             StartCoroutine(Dash());
-            playerRigid.velocity = new Vector3(h * playerStatus.MoveSpd * 2f, playerRigid.velocity.y, playerRigid.velocity.z);
+            moveDir = new Vector3(h * playerStatus.MoveSpd * 2f, 0, 0);
         }
         else
         {
             isDash = false;
-            playerRigid.velocity = new Vector3(h * playerStatus.MoveSpd, playerRigid.velocity.y, playerRigid.velocity.z);
+            moveDir = new Vector3(h * playerStatus.MoveSpd, 0, 0);
         }
 
         if (Mathf.Abs(h) > Mathf.Epsilon)
@@ -128,7 +131,7 @@ public class PlayerMove : MonoBehaviour
             playerAnim.SetInteger("Jumping", jumpCount);
 
             playerAnim.SetInteger("TriggerNumber", (int)AnimState.Jump);
-            playerRigid.AddForce(Vector3.up * playerStatus.JumpForce * 100, ForceMode.Impulse);
+            moveDir.y = playerStatus.JumpForce;
             playerAnim.SetTrigger("Trigger");
         }
         playerAnim.SetInteger("Jumping", jumpCount);
