@@ -32,14 +32,16 @@ public class PlatformChecker : MonoBehaviour
             thisColl.isTrigger = false;
         }
     }
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if(collision.collider.CompareTag("Player"))
-    //    {
-    //        isTriggered = true;
-    //        thisColl.isTrigger = true;
-    //    }
-    //}
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            playerMove.isLand = false;
+            playerAnim.SetInteger("TriggerNumber", (int)AnimState.Jump);
+            playerMove.jumpCount = 2;
+            playerAnim.SetTrigger("Trigger");
+        }
+    }
     private void OnCollisionStay(Collision collision)
     {
         if(collision.collider.CompareTag("Player"))

@@ -28,7 +28,6 @@ public class PlayerMove : MonoBehaviour
     Renderer weaponRenderer;
     public Animator playerAnim;
     private Rigidbody playerRigid;
-    //private CharacterController playerController;
 
     public float playerNowHp;
     public float playerNowMp;
@@ -36,7 +35,6 @@ public class PlayerMove : MonoBehaviour
 
     public int jumpCount = 0;
     private int attackMove = 0;
-    //private float yDir = 0;
 
     private bool isAct = false;
     private bool isAttack = false;
@@ -44,14 +42,12 @@ public class PlayerMove : MonoBehaviour
     private bool isDash = false;
     public bool isLand = false;
 
-    //Vector3 moveDir = Vector3.zero;
 
     WeaponState weaponState = WeaponState.None;
 
     private void Start()
     {
         playerAnim = GetComponentInChildren<Animator>();
-        //playerController = GetComponent<CharacterController>();
         playerRigid = GetComponent<Rigidbody>();
         weaponRenderer = weapon.GetComponent<Renderer>();
 
@@ -73,10 +69,10 @@ public class PlayerMove : MonoBehaviour
                 attColl.enabled = false;
             }
         }
-        Attack();
-        //if(!playerController.isGrounded)
-        //yDir += Physics.gravity.y * Time.deltaTime;
-        //playerController.Move(moveDir * Time.deltaTime);
+        if (!playerAnim.GetBool("Moving"))
+        {
+            Attack();
+        }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -104,7 +100,7 @@ public class PlayerMove : MonoBehaviour
     public void Move()
     {
         float h = Input.GetAxisRaw("Horizontal") * 0.5f;
-        playerAnim.SetFloat("Velocity Z", playerRigid.velocity.x/*playerController.velocity.x*/ / playerStatus.MoveSpd);
+        playerAnim.SetFloat("Velocity Z", playerRigid.velocity.x / playerStatus.MoveSpd);
 
         isCanDash = Input.GetKey(KeyCode.LeftShift) && Mathf.Abs(h) > Mathf.Epsilon && IsCanAct(1);
         isAct = isCanDash;
@@ -112,14 +108,12 @@ public class PlayerMove : MonoBehaviour
         if (isCanDash)
         {
             StartCoroutine(Dash());
-            //moveDir = new Vector3(h * playerStatus.MoveSpd * 2f, yDir, 0);
             playerRigid.velocity = new Vector3(h * playerStatus.MoveSpd * 2, playerRigid.velocity.y, playerRigid.velocity.z);
         }
         else
         {
             isDash = false;
             playerRigid.velocity = new Vector3(h * playerStatus.MoveSpd, playerRigid.velocity.y, playerRigid.velocity.z);
-            //moveDir = new Vector3(h * playerStatus.MoveSpd, yDir, 0);
         }
 
         if (Mathf.Abs(h) > Mathf.Epsilon)
@@ -135,7 +129,6 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 3)
         {
             isLand = false;
-            //yDir = playerStatus.JumpForce;
             if (jumpCount == 0)
             {
                 jumpCount += 2;
@@ -247,15 +240,6 @@ public class PlayerMove : MonoBehaviour
         }
         weapon.SetActive(false);
     }
-    //private void OnControllerColliderHit(ControllerColliderHit hit)
-    //{
-    //    if(!isLand && playerController.isGrounded)
-    //    {
-    //        isLand = true;
-    //        jumpCount = 0;
-    //        playerAnim.SetTrigger("Trigger");
-    //    }
-    //}
     private void OnCollisionEnter(Collision collision)
     {
         if (!isLand && collision.collider.CompareTag("Ground"))
