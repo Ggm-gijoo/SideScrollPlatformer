@@ -18,10 +18,13 @@ enum WeaponState
 
 public class PlayerMove : MonoBehaviour
 {
+    [Space]
     [SerializeField]
     private PlayerStatus playerStatus;
     [SerializeField]
     GameObject weapon;
+    [SerializeField]
+    BoxCollider[] attackCollider;
     Renderer weaponRenderer;
     public Animator playerAnim;
     private Rigidbody playerRigid;
@@ -65,6 +68,10 @@ public class PlayerMove : MonoBehaviour
         {
             Move();
             Jump();
+            foreach (var attColl in attackCollider)
+            {
+                attColl.enabled = false;
+            }
         }
         Attack();
         //if(!playerController.isGrounded)
@@ -157,6 +164,18 @@ public class PlayerMove : MonoBehaviour
                     attackMove = 0;
                 }
                 attackMove++;
+                if(weaponState == WeaponState.Sword)
+                {
+                    attackCollider[2].enabled = true;
+                }
+                else if(attackMove % 2 == 0)
+                {
+                    attackCollider[1].enabled = true;
+                }
+                else
+                {
+                    attackCollider[0].enabled = true;
+                }
                 playerAnim.SetInteger("Action", attackMove);
                 playerAnim.SetTrigger("Trigger", () =>
                 {
