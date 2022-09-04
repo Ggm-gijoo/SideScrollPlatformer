@@ -56,6 +56,7 @@ public class PlayerMove : MonoBehaviour
         playerNowMp = playerStatus.Mp;
         playerNowStamina = playerStatus.Stamina;
 
+        weapon.SetActive(false);
         StartCoroutine(RecoveryStamina());
     }
     private void Update()
@@ -198,6 +199,7 @@ public class PlayerMove : MonoBehaviour
         float timer = 1f;
         if (playerNowMp >= 20f)
         {
+            weapon.SetActive(true);
             playerNowMp -= 20f;
             while (weaponRenderer.material.GetFloat("_Float") >= -1)
             {
@@ -224,6 +226,7 @@ public class PlayerMove : MonoBehaviour
                 weaponState = WeaponState.None;
             }
         }
+        weapon.SetActive(false);
     }
     //private void OnControllerColliderHit(ControllerColliderHit hit)
     //{
