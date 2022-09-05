@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 2bd8959f5fbd3644aa33af1a155fc147, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 6225fa8890cf025489e57d3aa1d87260, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.037641034, g: 0.20651117, b: 0.6341525, a: 1}
+  m_IndirectSpecularColor: {r: 0.2874329, g: 0.80982983, b: 0.7327946, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41f67fd222c70f42bcac486e4c30db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nightFogDensity: 0.15
+  nightFogDensity: 0.1
   fogDensityCalc: 0.2
 --- !u!1 &831738447
 GameObject:
@@ -1224,8 +1224,8 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.5886792, g: 0.72885, b: 1, a: 1}
-  m_Intensity: 20
+  m_Color: {r: 0.4377358, g: 0.6251573, b: 1, a: 1}
+  m_Intensity: 7
   m_Range: 3
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
