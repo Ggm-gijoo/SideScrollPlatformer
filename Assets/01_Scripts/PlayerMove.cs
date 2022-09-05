@@ -260,6 +260,7 @@ public class PlayerMove : MonoBehaviour
             trailTimer += 0.05f;
             trail.material.SetFloat("_Float", trailTimer);
         }
+        trail.gameObject.SetActive(false);
     }
     private void OnCollisionEnter(Collision collision)
     {

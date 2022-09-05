@@ -1212,9 +1212,9 @@
     },
     "m_Color": {
         "color": {
-            "r": 0.285368412733078,
-            "g": 0.9056603908538818,
-            "b": 0.7640997171401978,
+            "r": 0.5820576548576355,
+            "g": 0.9433962106704712,
+            "b": 0.9084497690200806,
             "a": 0.0
         },
         "mode": 0
@@ -1418,9 +1418,9 @@
     },
     "m_Color": {
         "color": {
-            "r": 0.3176470398902893,
-            "g": 0.8313725590705872,
-            "b": 0.6806495189666748,
+            "r": 0.5304022431373596,
+            "g": 0.8867924213409424,
+            "b": 0.8251722455024719,
             "a": 0.0
         },
         "mode": 0
@@ -1582,7 +1582,7 @@
     "m_StageCapability": 3,
     "m_BareResource": false,
     "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"75dfc6346e16dd84f9207564d2a7227e\",\"type\":3}}",
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"0154f5eb51e5e6e4db430643ed1fe1f1\",\"type\":3}}",
         "m_Guid": ""
     },
     "m_DefaultType": 0
@@ -1842,7 +1842,7 @@
     "m_StageCapability": 3,
     "m_BareResource": false,
     "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"75dfc6346e16dd84f9207564d2a7227e\",\"type\":3}}",
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"0154f5eb51e5e6e4db430643ed1fe1f1\",\"type\":3}}",
         "m_Guid": ""
     },
     "m_DefaultType": 3
