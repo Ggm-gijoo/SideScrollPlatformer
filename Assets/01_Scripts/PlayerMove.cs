@@ -105,7 +105,6 @@ public class PlayerMove : MonoBehaviour
     {
         float h = Input.GetAxisRaw("Horizontal") * 0.5f;
         playerAnim.SetFloat("Velocity Z", playerRigid.velocity.x / playerStatus.MoveSpd);
-
         isCanDash = Input.GetKey(KeyCode.LeftShift) && Mathf.Abs(h) > Mathf.Epsilon && IsCanAct(1);
         isAct = isCanDash;
 
@@ -252,9 +251,10 @@ public class PlayerMove : MonoBehaviour
     {
         Debug.Log("½ÇÇà");
         trailTimer = -1f;
+        yield return new WaitForSeconds(0.2f);
         while (trailTimer <= 1f)
         {
-            yield return new WaitForSeconds(0.04f);
+            yield return new WaitForSeconds(0.03f);
             trailTimer += 0.1f;
             trail.material.SetFloat("_Float", trailTimer);
             Debug.Log(trailTimer);
