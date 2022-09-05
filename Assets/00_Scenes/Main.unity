@@ -1464,6 +1464,10 @@ PrefabInstance:
       value: 1.76
       objectReference: {fileID: 0}
     - target: {fileID: 2154933974280385215, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: m_Time
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2154933974280385215, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
@@ -1483,6 +1487,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: fc6ac8e5fc760894f9bba5de2974209d, type: 2}
+    - target: {fileID: 2154933974280385215, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0.2788391
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
 --- !u!1001 &2604442692452523504

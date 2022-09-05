@@ -223,7 +223,7 @@ public class PlayerMove : MonoBehaviour
             while (weaponRenderer.material.GetFloat("_Float") >= -1)
             {
                 yield return new WaitForSeconds(0.05f);
-                timer -= 0.05f;
+                timer -= 0.1f;
                 weaponRenderer.material.SetFloat("_Float", timer);
                 if (weaponRenderer.material.GetFloat("_Float") <= -0.3f)
                 {
@@ -251,10 +251,10 @@ public class PlayerMove : MonoBehaviour
     {
         Debug.Log("½ÇÇà");
         trailTimer = -1f;
-        yield return new WaitForSeconds(0.3f);
-        while (trailTimer <= 1f)
+        yield return new WaitForSeconds(0.25f);
+        while (trailTimer <= 0.4f)
         {
-            yield return new WaitForSeconds(0.025f);
+            yield return new WaitForSeconds(0.05f);
             trailTimer += 0.1f;
             trail.material.SetFloat("_Float", trailTimer);
             Debug.Log(trailTimer);

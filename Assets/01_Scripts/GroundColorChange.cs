@@ -15,7 +15,7 @@ public class GroundColorChange : MonoBehaviour
         {
             angle -= 1f;
         }
-        groundRenderer.material.SetColor("_BaseColor", Color.HSVToRGB(angle, 0.7f, 1f));
-        groundRenderer.material.SetColor("_Color", Color.HSVToRGB(angle, 0.9f, 1f));
+        groundRenderer.material.SetColor("_BaseColor", Color.HSVToRGB(angle, 0.3f, 1f));
+        groundRenderer.material.SetColor("_Color", Color.HSVToRGB(angle, 0.5f, 1f));
     }
 }
