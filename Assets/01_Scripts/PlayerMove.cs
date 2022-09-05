@@ -25,6 +25,7 @@ public class PlayerMove : MonoBehaviour
     GameObject weapon;
     [SerializeField]
     BoxCollider[] attackCollider;
+    TrailRenderer trail;
     Renderer weaponRenderer;
     public Animator playerAnim;
     private Rigidbody playerRigid;
@@ -42,7 +43,7 @@ public class PlayerMove : MonoBehaviour
     private bool isDash = false;
     public bool isLand = false;
 
-
+    
     WeaponState weaponState = WeaponState.None;
 
     private void Start()
@@ -50,11 +51,13 @@ public class PlayerMove : MonoBehaviour
         playerAnim = GetComponentInChildren<Animator>();
         playerRigid = GetComponent<Rigidbody>();
         weaponRenderer = weapon.GetComponent<Renderer>();
+        trail = weapon.GetComponentInChildren<TrailRenderer>();
 
         playerNowHp = playerStatus.Hp;
         playerNowMp = playerStatus.Mp;
         playerNowStamina = playerStatus.Stamina;
 
+        trail.gameObject.SetActive(false);
         weapon.SetActive(false);
         StartCoroutine(RecoveryStamina());
     }
@@ -157,8 +160,11 @@ public class PlayerMove : MonoBehaviour
                     attackMove = 0;
                 }
                 attackMove++;
+
                 if(weaponState == WeaponState.Sword)
                 {
+                    trail.gameObject.SetActive(true);
+                    StartCoroutine(TrailWeapon());
                     attackCollider[2].enabled = true;
                 }
                 else if(attackMove % 2 == 0)
@@ -169,10 +175,12 @@ public class PlayerMove : MonoBehaviour
                 {
                     attackCollider[0].enabled = true;
                 }
+
                 playerAnim.SetInteger("Action", attackMove);
                 playerAnim.SetTrigger("Trigger", () =>
                 {
                     isAttack = false;
+                    trail.gameObject.SetActive(false);
                 }, (float)weaponState * 0.5f + 0.5f
                 );
             }
@@ -239,6 +247,16 @@ public class PlayerMove : MonoBehaviour
             }
         }
         weapon.SetActive(false);
+    }
+    public IEnumerator TrailWeapon()
+    {
+        float timer = 1f;
+        while (trail.material.GetFloat("_Float") >= -1)
+        {
+            yield return new WaitForSeconds(0.05f);
+            timer -= 0.05f;
+            trail.material.SetFloat("_Float", timer);
+        }
     }
     private void OnCollisionEnter(Collision collision)
     {
