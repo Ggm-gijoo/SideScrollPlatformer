@@ -34,6 +34,7 @@ public class PlayerMove : MonoBehaviour
     public float playerNowMp;
     public float playerNowStamina;
 
+    private float trailTimer = -1f;
     public int jumpCount = 0;
     private int attackMove = 0;
 
@@ -207,7 +208,6 @@ public class PlayerMove : MonoBehaviour
             yield return null;
             if (!isAct && playerNowStamina < playerStatus.Stamina)
             {
-                Debug.Log($"현재 스태미나 : {playerNowStamina}");
                 playerNowStamina += 0.5f;
                 yield return new WaitForSeconds(0.05f);
             }
@@ -250,12 +250,14 @@ public class PlayerMove : MonoBehaviour
     }
     public IEnumerator TrailWeapon()
     {
-        float timer = -1f;
-        while (trail.material.GetFloat("_Float") <= 1)
+        Debug.Log("실행");
+        trailTimer = -1f;
+        while (trailTimer <= 1f)
         {
-            yield return new WaitForSeconds(0.05f);
-            timer += 0.05f;
-            trail.material.SetFloat("_Float", timer);
+            yield return new WaitForSeconds(0.04f);
+            trailTimer += 0.1f;
+            trail.material.SetFloat("_Float", trailTimer);
+            Debug.Log(trailTimer);
         }
     }
     private void OnCollisionEnter(Collision collision)
