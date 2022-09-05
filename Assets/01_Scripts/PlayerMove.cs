@@ -251,10 +251,10 @@ public class PlayerMove : MonoBehaviour
     {
         Debug.Log("½ÇÇà");
         trailTimer = -1f;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         while (trailTimer <= 1f)
         {
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.025f);
             trailTimer += 0.1f;
             trail.material.SetFloat("_Float", trailTimer);
             Debug.Log(trailTimer);
