@@ -163,6 +163,7 @@ public class PlayerMove : MonoBehaviour
 
                 if(weaponState == WeaponState.Sword)
                 {
+                    StopCoroutine(TrailWeapon());
                     trailTimer = -1f;
                     StartCoroutine(TrailWeapon());
                     attackCollider[2].enabled = true;
@@ -253,12 +254,11 @@ public class PlayerMove : MonoBehaviour
         trailTimer = -1f;
         yield return new WaitForSeconds(0.25f);
         trail.gameObject.SetActive(true);
-        while (trailTimer <= 0.05f)
+        while (trailTimer <= -0.4f)
         {
             yield return new WaitForSeconds(0.05f);
-            trailTimer += 0.075f;
+            trailTimer += 0.05f;
             trail.material.SetFloat("_Float", trailTimer);
-            Debug.Log(trailTimer);
         }
     }
     private void OnCollisionEnter(Collision collision)

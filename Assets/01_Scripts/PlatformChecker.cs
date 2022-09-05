@@ -26,7 +26,7 @@ public class PlatformChecker : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("PlatformCheck"))
         {
             isTriggered = false;
             thisColl.isTrigger = false;
