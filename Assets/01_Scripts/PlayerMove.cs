@@ -253,7 +253,7 @@ public class PlayerMove : MonoBehaviour
         trailTimer = -1f;
         yield return new WaitForSeconds(0.25f);
         trail.gameObject.SetActive(true);
-        while (trailTimer <= 0.15f)
+        while (trailTimer <= 0.05f)
         {
             yield return new WaitForSeconds(0.05f);
             trailTimer += 0.075f;
