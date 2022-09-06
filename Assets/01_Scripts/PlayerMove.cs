@@ -34,7 +34,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     BoxCollider[] attackCollider;
     TrailRenderer trail;
-    Renderer[] weaponRenderer;
+    Renderer[] weaponRenderer = new Renderer[100];
     public Animator playerAnim;
     private Rigidbody playerRigid;
 
@@ -62,8 +62,9 @@ public class PlayerMove : MonoBehaviour
         playerRigid = GetComponent<Rigidbody>();
         int i = 0;
         foreach(var weapon in weapons)
-        {  
-            weaponRenderer[i] = weapon.GetComponent<Renderer>();
+        {
+            print(weapon.GetComponent<MeshRenderer>());
+            weaponRenderer[i] = weapon.GetComponent<MeshRenderer>();
             weapon.SetActive(false);
             i++;
             Debug.Log(i);
@@ -245,15 +246,15 @@ public class PlayerMove : MonoBehaviour
         if (playerNowMp >= 20f)
         {
             weapons[(int)weaponState].SetActive(true);
-            Debug.Log(weaponState);
+            //Debug.Log(weaponState);
+            Debug.Log(weaponRenderer[(int)weaponState].material.GetFloat("_Float"));
             weaponState++;
             playerNowMp -= 20f;
-            while (weaponRenderer[(int)weaponState].material.GetFloat("_Float") >= -1)
+            while (weaponRenderer[(int)weaponState - 1].material.GetFloat("_Float") >= -1)
             {
-                Debug.Log(weaponRenderer[(int)weaponState].material.GetFloat("_Float"));
                 yield return new WaitForSeconds(0.05f);
                 timer -= 0.1f;
-                weaponRenderer[(int)weaponState].material.SetFloat("_Float", timer);
+                weaponRenderer[(int)weaponState - 1].material.SetFloat("_Float", timer);
             }
         }
     }
@@ -264,6 +265,7 @@ public class PlayerMove : MonoBehaviour
         {
             yield return new WaitForSeconds(0.05f);
             timer += 0.1f;
+            print(weaponRenderer[(int)weaponState].material);
             weaponRenderer[(int)weaponState].material.SetFloat("_Float", timer);
             if (weaponRenderer[(int)weaponState].material.GetFloat("_Float") >= 0.7f)
             {
