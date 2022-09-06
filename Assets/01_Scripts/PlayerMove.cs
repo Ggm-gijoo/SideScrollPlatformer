@@ -13,8 +13,8 @@ enum AnimState
 enum WeaponState
 {
     None = 0,
-    Sword = 1,
-    Bow = 2
+    Sword,
+    Bow
 }
 
 enum WeaponType
@@ -26,23 +26,32 @@ enum WeaponType
 
 public class PlayerMove : MonoBehaviour
 {
-    [Space]
-    [SerializeField]
-    private PlayerStatus playerStatus;
-    [SerializeField]
-    GameObject[] weapons;
-    [SerializeField]
-    BoxCollider[] attackCollider;
+    [Header("플레이어 SO")]
+
+    [SerializeField] private PlayerStatus playerStatus;
+
+    [Space(3f)]
+    [Header("무기")]
+
+    [SerializeField] GameObject[] weapons;
+
+    [Space(3f)]
+    [Header("공격 판정")]
+
+    [SerializeField] BoxCollider[] attackCollider;
+
+
     TrailRenderer trail;
+
     Renderer[] weaponRenderer = new Renderer[100];
-    public Animator playerAnim;
+    
+    private Animator playerAnim;
     private Rigidbody playerRigid;
 
     public float playerNowHp;
     public float playerNowMp;
     public float playerNowStamina;
 
-    private float trailTimer = -1f;
     public int jumpCount = 0;
     private int attackMove = 0;
 
@@ -52,6 +61,7 @@ public class PlayerMove : MonoBehaviour
     private bool isDash = false;
     public bool isLand = false;
 
+
     
     WeaponState weaponState = WeaponState.None;
     WeaponType weaponType = WeaponType.Light;
@@ -60,6 +70,7 @@ public class PlayerMove : MonoBehaviour
     {
         playerAnim = GetComponentInChildren<Animator>();
         playerRigid = GetComponent<Rigidbody>();
+
         int i = 0;
         foreach(var weapon in weapons)
         {
@@ -67,9 +78,7 @@ public class PlayerMove : MonoBehaviour
             weaponRenderer[i] = weapon.GetComponent<MeshRenderer>();
             weapon.SetActive(false);
             i++;
-            Debug.Log(i);
         }
-        i = 0;
 
         trail = weapons[0].GetComponentInChildren<TrailRenderer>();
         trail.gameObject.SetActive(false);
@@ -80,6 +89,7 @@ public class PlayerMove : MonoBehaviour
 
         StartCoroutine(RecoveryStamina());
     }
+
     private void Update()
     {
         if (!isAttack)
@@ -174,7 +184,7 @@ public class PlayerMove : MonoBehaviour
 
     public void Attack()
     {
-        if (Input.GetMouseButtonDown(0) && isLand)
+        if (Input.GetMouseButton(0) && isLand)
         {
             if (IsCanAct((int)weaponState + 5) && !isAttack)
             {
@@ -189,8 +199,6 @@ public class PlayerMove : MonoBehaviour
 
                 if(weaponState == WeaponState.Sword)
                 {
-                    StopCoroutine(TrailWeapon());
-                    trailTimer = -1f;
                     StartCoroutine(TrailWeapon());
                     attackCollider[2].enabled = true;
                 }
@@ -246,8 +254,6 @@ public class PlayerMove : MonoBehaviour
         if (playerNowMp >= 20f)
         {
             weapons[(int)weaponState].SetActive(true);
-            //Debug.Log(weaponState);
-            Debug.Log(weaponRenderer[(int)weaponState].material.GetFloat("_Float"));
             weaponState++;
             playerNowMp -= 20f;
             while (weaponRenderer[(int)weaponState - 1].material.GetFloat("_Float") >= -1)
@@ -265,7 +271,6 @@ public class PlayerMove : MonoBehaviour
         {
             yield return new WaitForSeconds(0.05f);
             timer += 0.1f;
-            print(weaponRenderer[(int)weaponState].material);
             weaponRenderer[(int)weaponState].material.SetFloat("_Float", timer);
             if (weaponRenderer[(int)weaponState].material.GetFloat("_Float") >= 0.7f)
             {
@@ -277,14 +282,14 @@ public class PlayerMove : MonoBehaviour
     }
     public IEnumerator TrailWeapon()
     {
-        trailTimer = -1f;
+        float timer = -1f;
         yield return new WaitForSeconds(0.25f);
         trail.gameObject.SetActive(true);
-        while (trailTimer <= -0.4f)
+        while (timer <= -0.4f)
         {
             yield return new WaitForSeconds(0.05f);
-            trailTimer += 0.05f;
-            trail.material.SetFloat("_Float", trailTimer);
+            timer += 0.05f;
+            trail.material.SetFloat("_Float", timer);
         }
         trail.gameObject.SetActive(false);
     }
