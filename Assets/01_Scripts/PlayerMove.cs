@@ -13,7 +13,15 @@ enum AnimState
 enum WeaponState
 {
     None = 0,
-    Sword = 1
+    Sword = 1,
+    Bow = 2
+}
+
+enum WeaponType
+{
+    Light = 0,
+    Medium,
+    Heavy
 }
 
 public class PlayerMove : MonoBehaviour
@@ -22,7 +30,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private PlayerStatus playerStatus;
     [SerializeField]
-    GameObject weapon;
+    GameObject[] weapons;
     [SerializeField]
     BoxCollider[] attackCollider;
     TrailRenderer trail;
@@ -46,20 +54,24 @@ public class PlayerMove : MonoBehaviour
 
     
     WeaponState weaponState = WeaponState.None;
+    WeaponType weaponType = WeaponType.Light;
 
     private void Start()
     {
         playerAnim = GetComponentInChildren<Animator>();
         playerRigid = GetComponent<Rigidbody>();
-        weaponRenderer = weapon.GetComponent<Renderer>();
-        trail = weapon.GetComponentInChildren<TrailRenderer>();
+        foreach (var weapon in weapons)
+        {
+            weaponRenderer = weapon.GetComponent<Renderer>();
+            trail = weapon.GetComponentInChildren<TrailRenderer>();
+            weapon.SetActive(false);
+        }
 
         playerNowHp = playerStatus.Hp;
         playerNowMp = playerStatus.Mp;
         playerNowStamina = playerStatus.Stamina;
 
         trail.gameObject.SetActive(false);
-        weapon.SetActive(false);
         StartCoroutine(RecoveryStamina());
     }
     private void Update()
@@ -182,7 +194,7 @@ public class PlayerMove : MonoBehaviour
                 {
                     isAttack = false;
                     trail.gameObject.SetActive(false);
-                }, (float)weaponState * 0.5f + 0.5f
+                }, (float)weaponType * 0.5f + 0.5f
                 );
             }
         }
@@ -219,7 +231,7 @@ public class PlayerMove : MonoBehaviour
         float timer = 1f;
         if (playerNowMp >= 20f)
         {
-            weapon.SetActive(true);
+            weapons[(int)weaponState].SetActive(true);
             playerNowMp -= 20f;
             while (weaponRenderer.material.GetFloat("_Float") >= -1)
             {
@@ -228,7 +240,7 @@ public class PlayerMove : MonoBehaviour
                 weaponRenderer.material.SetFloat("_Float", timer);
                 if (weaponRenderer.material.GetFloat("_Float") <= -0.3f)
                 {
-                    weaponState = WeaponState.Sword;
+                    weaponState++;
                 }
             }
         }
@@ -246,7 +258,7 @@ public class PlayerMove : MonoBehaviour
                 weaponState = WeaponState.None;
             }
         }
-        weapon.SetActive(false);
+        weapons.SetActive(false);
     }
     public IEnumerator TrailWeapon()
     {
