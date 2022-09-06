@@ -450,10 +450,14 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 7d58dd8d9be70844ea75845156e4179d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 9702f6923434d6d4e99539f2cc747521, type: 2}
+      objectReference: {fileID: 2100000, guid: dae364b0798edbe44abf702015bd89c2, type: 2}
     - target: {fileID: 919132149155446097, guid: 7d58dd8d9be70844ea75845156e4179d, type: 3}
       propertyPath: m_Name
       value: Bow
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7d58dd8d9be70844ea75845156e4179d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d58dd8d9be70844ea75845156e4179d, type: 3}
@@ -887,6 +891,16 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!1 &1166795116 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2154933973832275758, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+  m_PrefabInstance: {fileID: 2154933973910553460}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1178909353 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7d58dd8d9be70844ea75845156e4179d, type: 3}
+  m_PrefabInstance: {fileID: 696543011}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1221479116
 GameObject:
   m_ObjectHideFlags: 0
@@ -1817,6 +1831,18 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: -1.2
       objectReference: {fileID: 0}
+    - target: {fileID: 2154933974911387305, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: weapons.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2154933974911387305, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: weapons.Array.data[0]
+      value: 
+      objectReference: {fileID: 1166795116}
+    - target: {fileID: 2154933974911387305, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: weapons.Array.data[1]
+      value: 
+      objectReference: {fileID: 1178909353}
     - target: {fileID: 6360771687875558369, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: m_TagString
       value: weapon

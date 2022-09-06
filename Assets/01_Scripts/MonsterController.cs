@@ -8,7 +8,6 @@ public class MonsterController : MonoBehaviour
     {
         if(other.CompareTag("weapon"))
         {
-            Debug.Log("¸Â¾Æ");
         }
     }
 }
