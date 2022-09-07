@@ -61,7 +61,9 @@ public class PlayerMove : MonoBehaviour
     private bool isDash = false;
     public bool isLand = false;
 
-
+    private const string _alpha = "_Alpha";
+    private const string _trigger = "Trigger";
+    private const string _moving = "Moving";
     
     WeaponState weaponState = WeaponState.None;
     WeaponType weaponType = WeaponType.Light;
@@ -101,7 +103,7 @@ public class PlayerMove : MonoBehaviour
                 attColl.enabled = false;
             }
         }
-        if (!playerAnim.GetBool("Moving"))
+        if (!playerAnim.GetBool(_moving))
         {
             Attack();
         }
@@ -155,12 +157,7 @@ public class PlayerMove : MonoBehaviour
             playerRigid.velocity = new Vector3(h * playerStatus.MoveSpd, playerRigid.velocity.y, playerRigid.velocity.z);
         }
 
-        if (Mathf.Abs(h) > Mathf.Epsilon)
-        {
-            playerAnim.SetBool("Moving", true);
-        }
-        else
-            playerAnim.SetBool("Moving", false);
+        playerAnim.SetBool(_moving, Mathf.Abs(h) > Mathf.Epsilon);
     }
 
     public void Jump()
@@ -177,7 +174,7 @@ public class PlayerMove : MonoBehaviour
             playerAnim.SetInteger("Jumping", jumpCount);
             playerRigid.AddForce(Vector3.up * playerStatus.JumpForce * 100f,ForceMode.Impulse);
             playerAnim.SetInteger("TriggerNumber", (int)AnimState.Jump);
-            playerAnim.SetTrigger("Trigger");
+            playerAnim.SetTrigger(_trigger);
         }
         playerAnim.SetInteger("Jumping", jumpCount);
     }
@@ -212,7 +209,7 @@ public class PlayerMove : MonoBehaviour
                 }
 
                 playerAnim.SetInteger("Action", attackMove);
-                playerAnim.SetTrigger("Trigger", () =>
+                playerAnim.SetTrigger(_trigger, () =>
                 {
                     isAttack = false;
                     trail.gameObject.SetActive(false);
@@ -256,23 +253,23 @@ public class PlayerMove : MonoBehaviour
             weapons[(int)weaponState].SetActive(true);
             weaponState++;
             playerNowMp -= 20f;
-            while (weaponRenderer[(int)weaponState - 1].material.GetFloat("_Float") >= -1)
+            while (weaponRenderer[(int)weaponState - 1].material.GetFloat(_alpha) >= -1)
             {
                 yield return new WaitForSeconds(0.05f);
                 timer -= 0.1f;
-                weaponRenderer[(int)weaponState - 1].material.SetFloat("_Float", timer);
+                weaponRenderer[(int)weaponState - 1].material.SetFloat(_alpha, timer);
             }
         }
     }
     public IEnumerator DisarmedWeapon()
     {
         float timer = 0f;
-        while (weaponRenderer[(int)weaponState].material.GetFloat("_Float") <= 1)
+        while (weaponRenderer[(int)weaponState].material.GetFloat(_alpha) <= 1)
         {
             yield return new WaitForSeconds(0.05f);
             timer += 0.1f;
-            weaponRenderer[(int)weaponState].material.SetFloat("_Float", timer);
-            if (weaponRenderer[(int)weaponState].material.GetFloat("_Float") >= 0.7f)
+            weaponRenderer[(int)weaponState].material.SetFloat(_alpha, timer);
+            if (weaponRenderer[(int)weaponState].material.GetFloat(_alpha) >= 0.7f)
             {
                 weaponState = WeaponState.None;
             }
@@ -289,7 +286,7 @@ public class PlayerMove : MonoBehaviour
         {
             yield return new WaitForSeconds(0.05f);
             timer += 0.05f;
-            trail.material.SetFloat("_Float", timer);
+            trail.material.SetFloat(_alpha, timer);
         }
         trail.gameObject.SetActive(false);
     }
@@ -299,7 +296,7 @@ public class PlayerMove : MonoBehaviour
         {
             isLand = true;
             jumpCount = 0;
-            playerAnim.SetTrigger("Trigger");
+            playerAnim.SetTrigger(_trigger);
         }
     }
 }
