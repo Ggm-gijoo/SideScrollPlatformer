@@ -47,7 +47,7 @@ public class PlayerMove : MonoBehaviour
     
     private Animator playerAnim;
     private Rigidbody playerRigid;
-
+    #region 스테이터스
     public float playerNowHp;
     public float playerNowMp;
     public float playerNowStamina;
@@ -62,11 +62,18 @@ public class PlayerMove : MonoBehaviour
     public bool isLand = false;
 
     private const string _alpha = "_Alpha";
-    private const string _trigger = "Trigger";
-    private const string _moving = "Moving";
-    
+
+    private readonly int _trigger = Animator.StringToHash("Trigger");
+    private readonly int _triggerNum = Animator.StringToHash("TriggerNumber");
+    private readonly int _moving = Animator.StringToHash("Moving");
+    private readonly int _weapon = Animator.StringToHash("Weapon");
+    private readonly int _action = Animator.StringToHash("Action");
+    private readonly int _jumping = Animator.StringToHash("Jumping");
+
     WeaponState weaponState = WeaponState.None;
     WeaponType weaponType = WeaponType.Light;
+    #endregion
+
 
     private void Start()
     {
@@ -76,7 +83,6 @@ public class PlayerMove : MonoBehaviour
         int i = 0;
         foreach(var weapon in weapons)
         {
-            print(weapon.GetComponent<MeshRenderer>());
             weaponRenderer[i] = weapon.GetComponent<MeshRenderer>();
             weapon.SetActive(false);
             i++;
@@ -127,7 +133,7 @@ public class PlayerMove : MonoBehaviour
                     break;
             }
         }
-        playerAnim.SetInteger("Weapon", (int)weaponState);
+        playerAnim.SetInteger(_weapon, (int)weaponState);
     }
 
     public bool IsCanAct(float useStamina)
@@ -136,9 +142,7 @@ public class PlayerMove : MonoBehaviour
             return true;
         return false;
     }
-    //스태미나가 계속 회복되는 조건
-    //현재 스태미나를 소모하는 행동중이 아닐 때
-
+#region 이동
     public void Move()
     {
         float h = Input.GetAxisRaw("Horizontal") * 0.5f;
@@ -170,53 +174,13 @@ public class PlayerMove : MonoBehaviour
                 jumpCount += 2;
             }
             else
-            jumpCount++;
-            playerAnim.SetInteger("Jumping", jumpCount);
-            playerRigid.AddForce(Vector3.up * playerStatus.JumpForce * 100f,ForceMode.Impulse);
-            playerAnim.SetInteger("TriggerNumber", (int)AnimState.Jump);
+                jumpCount++;
+            playerAnim.SetInteger(_jumping, jumpCount);
+            playerRigid.AddForce(Vector3.up * playerStatus.JumpForce * 100f, ForceMode.Impulse);
+            playerAnim.SetInteger(_triggerNum, (int)AnimState.Jump);
             playerAnim.SetTrigger(_trigger);
         }
-        playerAnim.SetInteger("Jumping", jumpCount);
-    }
-
-    public void Attack()
-    {
-        if (Input.GetMouseButton(0) && isLand)
-        {
-            if (IsCanAct((int)weaponState + 5) && !isAttack)
-            {
-                isAttack = true;
-                playerNowStamina -= (int)weaponType + 5;
-                playerAnim.SetInteger("TriggerNumber", (int)AnimState.Attack);
-                if (attackMove >= 6)
-                {
-                    attackMove = 0;
-                }
-                attackMove++;
-
-                if(weaponState == WeaponState.Sword)
-                {
-                    StartCoroutine(TrailWeapon());
-                    attackCollider[2].enabled = true;
-                }
-                else if(attackMove % 2 == 0)
-                {
-                    attackCollider[1].enabled = true;
-                }
-                else
-                {
-                    attackCollider[0].enabled = true;
-                }
-
-                playerAnim.SetInteger("Action", attackMove);
-                playerAnim.SetTrigger(_trigger, () =>
-                {
-                    isAttack = false;
-                    trail.gameObject.SetActive(false);
-                }, (float)weaponType * 0.25f + 0.5f
-                );
-            }
-        }
+        playerAnim.SetInteger(_jumping, jumpCount);
     }
 
     public IEnumerator Dash()
@@ -228,6 +192,46 @@ public class PlayerMove : MonoBehaviour
             {
                 yield return new WaitForSeconds(0.05f);
                 playerNowStamina -= 1f;
+            }
+        }
+    }
+    #endregion
+    public void Attack()
+    {
+        if (Input.GetMouseButton(0) && isLand)
+        {
+            if (IsCanAct((int)weaponState + 5) && !isAttack)
+            {
+                isAttack = true;
+                playerNowStamina -= (int)weaponType + 5;
+                playerAnim.SetInteger(_triggerNum, (int)AnimState.Attack);
+                if (attackMove >= 6)
+                {
+                    attackMove = 0;
+                }
+                attackMove++;
+
+                if (weaponState == WeaponState.Sword)
+                {
+                    StartCoroutine(TrailWeapon());
+                    attackCollider[2].enabled = true;
+                }
+                else if (attackMove % 2 == 0)
+                {
+                    attackCollider[1].enabled = true;
+                }
+                else
+                {
+                    attackCollider[0].enabled = true;
+                }
+
+                playerAnim.SetInteger(_action, attackMove);
+                playerAnim.SetTrigger(_trigger, () =>
+                {
+                    isAttack = false;
+                    trail.gameObject.SetActive(false);
+                }, (float)weaponType * 0.25f + 0.5f
+                );
             }
         }
     }
@@ -244,7 +248,7 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
-
+    #region 무기 소환, 해제
     public IEnumerator SummonWeapon()
     {
         float timer = 1f;
@@ -290,6 +294,7 @@ public class PlayerMove : MonoBehaviour
         }
         trail.gameObject.SetActive(false);
     }
+    #endregion
     private void OnCollisionEnter(Collision collision)
     {
         if (!isLand && collision.collider.CompareTag("Ground"))
