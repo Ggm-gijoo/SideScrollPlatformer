@@ -54,6 +54,7 @@ public class PlayerMove : MonoBehaviour
 
     public int jumpCount = 0;
     private int attackMove = 0;
+    private int weaponStateValue = 0;
 
     private bool isAct = false;
     private bool isAttack = false;
@@ -113,7 +114,7 @@ public class PlayerMove : MonoBehaviour
         {
             Attack();
         }
-
+   
         if (Input.GetKeyDown(KeyCode.Q))
         {
             switch(weaponState)
@@ -133,7 +134,7 @@ public class PlayerMove : MonoBehaviour
                     break;
             }
         }
-        playerAnim.SetInteger(_weapon, (int)weaponState);
+        playerAnim.SetInteger(_weapon, weaponStateValue);
     }
 
     public bool IsCanAct(float useStamina)
@@ -200,7 +201,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && isLand)
         {
-            if (IsCanAct((int)weaponState + 5) && !isAttack)
+            if (IsCanAct(weaponStateValue + 5) && !isAttack)
             {
                 isAttack = true;
                 playerNowStamina -= (int)weaponType + 5;
@@ -254,26 +255,29 @@ public class PlayerMove : MonoBehaviour
         float timer = 1f;
         if (playerNowMp >= 20f)
         {
-            weapons[(int)weaponState].SetActive(true);
+            weaponStateValue = (int)weaponState;
+            weapons[weaponStateValue].SetActive(true);
             weaponState++;
+            weaponStateValue++;
             playerNowMp -= 20f;
-            while (weaponRenderer[(int)weaponState - 1].material.GetFloat(_alpha) >= -1)
+            while (weaponRenderer[weaponStateValue - 1].material.GetFloat(_alpha) >= -1)
             {
                 yield return new WaitForSeconds(0.05f);
                 timer -= 0.1f;
-                weaponRenderer[(int)weaponState - 1].material.SetFloat(_alpha, timer);
+                weaponRenderer[weaponStateValue - 1].material.SetFloat(_alpha, timer);
             }
         }
     }
     public IEnumerator DisarmedWeapon()
     {
         float timer = 0f;
-        while (weaponRenderer[(int)weaponState].material.GetFloat(_alpha) <= 1)
+        weaponStateValue = (int)weaponState;
+        while (weaponRenderer[weaponStateValue - 1].material.GetFloat(_alpha) <= 1)
         {
             yield return new WaitForSeconds(0.05f);
             timer += 0.1f;
-            weaponRenderer[(int)weaponState].material.SetFloat(_alpha, timer);
-            if (weaponRenderer[(int)weaponState].material.GetFloat(_alpha) >= 0.7f)
+            weaponRenderer[weaponStateValue - 1].material.SetFloat(_alpha, timer);
+            if (weaponRenderer[weaponStateValue - 1].material.GetFloat(_alpha) >= 0.7f)
             {
                 weaponState = WeaponState.None;
             }
