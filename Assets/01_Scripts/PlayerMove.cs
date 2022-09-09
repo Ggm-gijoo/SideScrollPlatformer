@@ -201,7 +201,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && isLand)
         {
-            if (IsCanAct(weaponStateValue + 5) && !isAttack)
+            if (IsCanAct((int)weaponType + 5) && !isAttack)
             {
                 isAttack = true;
                 playerNowStamina -= (int)weaponType + 5;
