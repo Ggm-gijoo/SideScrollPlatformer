@@ -291,10 +291,11 @@ public class PlayerMove : MonoBehaviour
         float timer = -1f;
         yield return new WaitForSeconds(0.25f);
         trail.gameObject.SetActive(true);
-        while (timer <= -0.4f)
+        yield return new WaitForSeconds(0.1f);
+        while (timer <= 0f)
         {
             yield return new WaitForSeconds(0.05f);
-            timer += 0.05f;
+            timer += 0.1f;
             trail.material.SetFloat(_alpha, timer);
         }
         trail.gameObject.SetActive(false);
