@@ -289,12 +289,12 @@ public class PlayerMove : MonoBehaviour
     public IEnumerator TrailWeapon()
     {
         float timer = -1f;
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.4f);
         trail.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.1f);
-        while (timer <= 0f)
+        while (timer <= -0.3f)
         {
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.025f);
             timer += 0.1f;
             trail.material.SetFloat(_alpha, timer);
         }
