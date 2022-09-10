@@ -6694,7 +6694,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2154933974280385215, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: m_Time
-      value: 0.15
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2154933974280385215, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: m_CastShadows
@@ -6729,12 +6729,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2154933974280385215, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2154933974280385215, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
-      value: 0.75
+      value: 0.7254907
       objectReference: {fileID: 0}
     - target: {fileID: 2154933974280385215, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
-      value: 0.19229889
+      value: 0.13725281
       objectReference: {fileID: 0}
     - target: {fileID: 2154933974822513149, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: m_Size.x
