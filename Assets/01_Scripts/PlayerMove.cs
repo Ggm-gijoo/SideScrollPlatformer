@@ -255,12 +255,13 @@ public class PlayerMove : MonoBehaviour
         float timer = 1f;
         if (playerNowMp >= 20f)
         {
+            timer = 1f;
             weaponStateValue = (int)weaponState;
             weapons[weaponStateValue].SetActive(true);
             weaponState++;
             weaponStateValue++;
             playerNowMp -= 20f;
-            while (weaponRenderer[weaponStateValue - 1].material.GetFloat(_alpha) >= -1)
+            while (timer >= -1)
             {
                 yield return new WaitForSeconds(0.05f);
                 timer -= 0.1f;
@@ -272,7 +273,7 @@ public class PlayerMove : MonoBehaviour
     {
         float timer = 0f;
         weaponStateValue = (int)weaponState;
-        while (weaponRenderer[weaponStateValue - 1].material.GetFloat(_alpha) <= 1)
+        while (timer <= 1)
         {
             yield return new WaitForSeconds(0.05f);
             timer += 0.1f;
