@@ -41,7 +41,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] BoxCollider[] attackCollider;
 
 
-    TrailRenderer trail;
+    [SerializeField] ParticleSystem trail;
 
     Renderer[] weaponRenderer = new Renderer[100];
     
@@ -89,7 +89,7 @@ public class PlayerMove : MonoBehaviour
             i++;
         }
 
-        trail = weapons[0].GetComponentInChildren<TrailRenderer>();
+        //trail = weapons[0].GetComponentInChildren<TrailRenderer>();
         trail.gameObject.SetActive(false);
 
         playerNowHp = playerStatus.Hp;
