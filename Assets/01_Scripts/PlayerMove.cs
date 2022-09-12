@@ -293,18 +293,23 @@ public class PlayerMove : MonoBehaviour
         float timer = -0.5f;
         yield return new WaitForSeconds(0.4f);
         trail.gameObject.SetActive(true);
-        trail.transform.rotation = weapons[weaponStateValue].transform.rotation;
-        trail.Play();
         while (timer <= -0f)
         {
             yield return new WaitForSeconds(0.025f);
             timer += 0.1f;
+            Debug.Log(timer);
+            if(Mathf.Abs(0.2f+timer) <= 0.01f && !trail.isPlaying)
+            {
+                trail.transform.rotation = weapons[0].transform.rotation;
+                trail.Play();
+            }
             tRenderer.material.SetFloat(_alpha, timer);
             //trail.material.SetFloat(_alpha, timer);
         }
         trail.gameObject.SetActive(false);
     }
     #endregion
+
     private void OnCollisionEnter(Collision collision)
     {
         if (!isLand && collision.collider.CompareTag("Ground"))
