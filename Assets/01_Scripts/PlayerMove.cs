@@ -47,6 +47,7 @@ public class PlayerMove : MonoBehaviour
     
     private Animator playerAnim;
     private Rigidbody playerRigid;
+    private Renderer tRenderer;
     #region 스테이터스
     public float playerNowHp;
     public float playerNowMp;
@@ -80,6 +81,7 @@ public class PlayerMove : MonoBehaviour
     {
         playerAnim = GetComponentInChildren<Animator>();
         playerRigid = GetComponent<Rigidbody>();
+        tRenderer = trail.GetComponent<Renderer>();
 
         int i = 0;
         foreach(var weapon in weapons)
@@ -288,15 +290,17 @@ public class PlayerMove : MonoBehaviour
     }
     public IEnumerator TrailWeapon()
     {
-        float timer = -1f;
+        float timer = -0.5f;
         yield return new WaitForSeconds(0.4f);
         trail.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
-        while (timer <= -0.3f)
+        trail.transform.rotation = weapons[weaponStateValue].transform.rotation;
+        trail.Play();
+        while (timer <= -0f)
         {
             yield return new WaitForSeconds(0.025f);
             timer += 0.1f;
-            trail.material.SetFloat(_alpha, timer);
+            tRenderer.material.SetFloat(_alpha, timer);
+            //trail.material.SetFloat(_alpha, timer);
         }
         trail.gameObject.SetActive(false);
     }
