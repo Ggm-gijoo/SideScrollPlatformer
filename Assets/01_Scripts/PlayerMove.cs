@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 enum AnimState
 {
@@ -27,28 +28,23 @@ enum WeaponType
 public class PlayerMove : MonoBehaviour
 {
     [Header("플레이어 SO")]
-
     [SerializeField] private PlayerStatus playerStatus;
 
-    [Space(3f)]
     [Header("무기")]
-
     [SerializeField] GameObject[] weapons;
 
-    [Space(3f)]
     [Header("공격 판정")]
-
     [SerializeField] BoxCollider[] attackCollider;
 
-    TrailRenderer trail;
-    //[SerializeField] ParticleSystem trail;
+    [Header("무기 VFX")]
+    [SerializeField] VisualEffect weaponVfx;
 
     Renderer[] weaponRenderer = new Renderer[100];
     
     private Animator playerAnim;
     private Rigidbody playerRigid;
-    private Renderer tRenderer;
     #region 스테이터스
+    [Header("스테이터스")]
     public float playerNowHp;
     public float playerNowMp;
     public float playerNowStamina;
@@ -56,7 +52,7 @@ public class PlayerMove : MonoBehaviour
     public int jumpCount = 0;
     private int attackMove = 0;
     private int weaponStateValue = 0;
-    public Vector3 trailRotationDist = new Vector3(0, -90, 0);
+    public Vector3 trailRotationDist = new Vector3(0, 180, 0);
 
     private bool isAct = false;
     private bool isAttack = false;
@@ -77,12 +73,11 @@ public class PlayerMove : MonoBehaviour
     WeaponType weaponType = WeaponType.Light;
     #endregion
 
-
+    #region 스타트 업데이트
     private void Start()
     {
         playerAnim = GetComponentInChildren<Animator>();
         playerRigid = GetComponent<Rigidbody>();
-        //tRenderer = trail.GetComponent<Renderer>();
 
         int i = 0;
         foreach(var weapon in weapons)
@@ -91,9 +86,7 @@ public class PlayerMove : MonoBehaviour
             weapon.SetActive(false);
             i++;
         }
-
-        trail = weapons[0].GetComponentInChildren<TrailRenderer>();
-        trail.gameObject.SetActive(false);
+        weaponVfx.gameObject.SetActive(false);
 
         playerNowHp = playerStatus.Hp;
         playerNowMp = playerStatus.Mp;
@@ -139,6 +132,7 @@ public class PlayerMove : MonoBehaviour
         }
         playerAnim.SetInteger(_weapon, weaponStateValue);
     }
+    #endregion
 
     public bool IsCanAct(float useStamina)
     {
@@ -146,7 +140,8 @@ public class PlayerMove : MonoBehaviour
             return true;
         return false;
     }
-#region 이동
+    #region 조작
+    #region 이동
     public void Move()
     {
         float h = Input.GetAxisRaw("Horizontal") * 0.5f;
@@ -200,6 +195,8 @@ public class PlayerMove : MonoBehaviour
         }
     }
     #endregion
+
+    #region 공격
     public void Attack()
     {
         if (Input.GetMouseButton(0) && isLand)
@@ -217,7 +214,7 @@ public class PlayerMove : MonoBehaviour
 
                 if (weaponState == WeaponState.Sword)
                 {
-                    StartCoroutine(TrailWeapon());
+                    StartCoroutine(WeaponVfxPlay());
                     attackCollider[2].enabled = true;
                 }
                 else if (attackMove % 2 == 0)
@@ -233,13 +230,16 @@ public class PlayerMove : MonoBehaviour
                 playerAnim.SetTrigger(_trigger, () =>
                 {
                     isAttack = false;
-                    trail.gameObject.SetActive(false);
+                    weaponVfx.gameObject.SetActive(false);
                 }, (float)weaponType * 0.25f + 0.5f
                 );
             }
         }
     }
+    #endregion
+    #endregion
 
+    #region 시스템
     public IEnumerator RecoveryStamina()
     {
         while (true)
@@ -261,6 +261,7 @@ public class PlayerMove : MonoBehaviour
             timer = 1f;
             weaponStateValue = (int)weaponState;
             weapons[weaponStateValue].SetActive(true);
+
             weaponState++;
             weaponStateValue++;
             playerNowMp -= 20f;
@@ -281,7 +282,7 @@ public class PlayerMove : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
             timer += 0.1f;
             weaponRenderer[weaponStateValue - 1].material.SetFloat(_alpha, timer);
-            if (weaponRenderer[weaponStateValue - 1].material.GetFloat(_alpha) >= 0.7f)
+            if (timer >= 0.7f)
             {
                 weaponState = WeaponState.None;
             }
@@ -289,25 +290,15 @@ public class PlayerMove : MonoBehaviour
         foreach(var weapon in weapons)
         weapon.SetActive(false);
     }
-    public IEnumerator TrailWeapon()
+    public IEnumerator WeaponVfxPlay()
     {
-        float timer = -1f;
-        yield return new WaitForSeconds(0.4f);
-        trail.gameObject.SetActive(true);
-        while (timer <= -0.2f)
-        {
-            yield return new WaitForSeconds(0.025f);
-            timer += 0.1f;
-            //Debug.Log(timer);
-            //if(Mathf.Abs(0.2f+timer) <= 0.01f && !trail.isPlaying)
-            //{
-            //    trail.transform.rotation = weapons[0].transform.rotation * Quaternion.Euler(trailRotationDist);
-            //    trail.Play();
-            //}
-            //tRenderer.material.SetFloat(_alpha, timer);
-            trail.material.SetFloat(_alpha, timer);
-        }
-        trail.gameObject.SetActive(false);
+        Transform startPos = weapons[0].transform;
+        yield return new WaitForSeconds(0.5f);
+        weaponVfx.transform.position = ((startPos.position + weapons[0].transform.position) * 0.5f) + Vector3.forward * 2f;
+        weaponVfx.transform.rotation = startPos.rotation * weapons[0].transform.rotation;
+        weaponVfx.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        weaponVfx.gameObject.SetActive(false);
     }
     #endregion
 
@@ -321,4 +312,5 @@ public class PlayerMove : MonoBehaviour
         }
     }
 }
+#endregion
 

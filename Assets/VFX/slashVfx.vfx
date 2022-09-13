@@ -755,7 +755,7 @@ MonoBehaviour:
   colorMapping: 0
   uvMode: 0
   useSoftParticle: 0
-  vfxSystemSortPriority: 0
+  vfxSystemSortPriority: 1
   sort: 0
   indirectDraw: 0
   computeCulling: 0
@@ -1735,7 +1735,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":1.9666513204574586,"b":21.36125373840332,"a":3.0}'
+      m_SerializableObject: '{"r":0.8742305636405945,"g":12.508222579956055,"b":6.321359634399414,"a":3.0}'
     m_Space: 2147483647
   m_Property:
     name: _Color
