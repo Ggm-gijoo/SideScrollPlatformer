@@ -40,8 +40,8 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField] BoxCollider[] attackCollider;
 
-
-    [SerializeField] ParticleSystem trail;
+    TrailRenderer trail;
+    //[SerializeField] ParticleSystem trail;
 
     Renderer[] weaponRenderer = new Renderer[100];
     
@@ -82,7 +82,7 @@ public class PlayerMove : MonoBehaviour
     {
         playerAnim = GetComponentInChildren<Animator>();
         playerRigid = GetComponent<Rigidbody>();
-        tRenderer = trail.GetComponent<Renderer>();
+        //tRenderer = trail.GetComponent<Renderer>();
 
         int i = 0;
         foreach(var weapon in weapons)
@@ -92,7 +92,7 @@ public class PlayerMove : MonoBehaviour
             i++;
         }
 
-        //trail = weapons[0].GetComponentInChildren<TrailRenderer>();
+        trail = weapons[0].GetComponentInChildren<TrailRenderer>();
         trail.gameObject.SetActive(false);
 
         playerNowHp = playerStatus.Hp;
@@ -291,21 +291,21 @@ public class PlayerMove : MonoBehaviour
     }
     public IEnumerator TrailWeapon()
     {
-        float timer = -0.5f;
+        float timer = -1f;
         yield return new WaitForSeconds(0.4f);
         trail.gameObject.SetActive(true);
-        while (timer <= -0f)
+        while (timer <= -0.2f)
         {
             yield return new WaitForSeconds(0.025f);
             timer += 0.1f;
-            Debug.Log(timer);
-            if(Mathf.Abs(0.2f+timer) <= 0.01f && !trail.isPlaying)
-            {
-                trail.transform.rotation = weapons[0].transform.rotation * Quaternion.Euler(trailRotationDist);
-                trail.Play();
-            }
-            tRenderer.material.SetFloat(_alpha, timer);
-            //trail.material.SetFloat(_alpha, timer);
+            //Debug.Log(timer);
+            //if(Mathf.Abs(0.2f+timer) <= 0.01f && !trail.isPlaying)
+            //{
+            //    trail.transform.rotation = weapons[0].transform.rotation * Quaternion.Euler(trailRotationDist);
+            //    trail.Play();
+            //}
+            //tRenderer.material.SetFloat(_alpha, timer);
+            trail.material.SetFloat(_alpha, timer);
         }
         trail.gameObject.SetActive(false);
     }
