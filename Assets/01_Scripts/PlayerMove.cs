@@ -37,7 +37,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] BoxCollider[] attackCollider;
 
     [Header("¹«±â VFX")]
-    [SerializeField] VisualEffect weaponVfx;
+    [SerializeField] GameObject weaponVfxTrs;
+    VisualEffect weaponVfx;
 
     Renderer[] weaponRenderer = new Renderer[100];
     
@@ -78,6 +79,7 @@ public class PlayerMove : MonoBehaviour
     {
         playerAnim = GetComponentInChildren<Animator>();
         playerRigid = GetComponent<Rigidbody>();
+        weaponVfx = weaponVfxTrs.GetComponentInChildren<VisualEffect>();
 
         int i = 0;
         foreach(var weapon in weapons)
