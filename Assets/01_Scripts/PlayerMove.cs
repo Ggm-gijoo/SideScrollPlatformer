@@ -56,6 +56,7 @@ public class PlayerMove : MonoBehaviour
     public int jumpCount = 0;
     private int attackMove = 0;
     private int weaponStateValue = 0;
+    public Vector3 trailRotationDist = new Vector3(0, -90, 0);
 
     private bool isAct = false;
     private bool isAttack = false;
@@ -300,7 +301,7 @@ public class PlayerMove : MonoBehaviour
             Debug.Log(timer);
             if(Mathf.Abs(0.2f+timer) <= 0.01f && !trail.isPlaying)
             {
-                trail.transform.rotation = weapons[0].transform.rotation;
+                trail.transform.rotation = weapons[0].transform.rotation * Quaternion.Euler(trailRotationDist);
                 trail.Play();
             }
             tRenderer.material.SetFloat(_alpha, timer);
