@@ -292,12 +292,9 @@ public class PlayerMove : MonoBehaviour
     }
     public IEnumerator WeaponVfxPlay()
     {
-        Transform startPos = weapons[0].transform;
         yield return new WaitForSeconds(0.5f);
-        weaponVfx.transform.position = ((startPos.position + weapons[0].transform.position) * 0.5f) + Vector3.forward * 2f;
-        weaponVfx.transform.rotation = startPos.rotation * weapons[0].transform.rotation;
         weaponVfx.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         weaponVfx.gameObject.SetActive(false);
     }
     #endregion
