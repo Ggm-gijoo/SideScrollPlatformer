@@ -60,6 +60,7 @@ public class PlayerMove : MonoBehaviour
     private bool isAttack = false;
     private bool isCanDash = false;
     private bool isDash = false;
+    private bool isDodge = false;
     public bool isLand = false;
 
     private const string _alpha = "_Alpha";
@@ -104,6 +105,7 @@ public class PlayerMove : MonoBehaviour
         {
             Move();
             Jump();
+            Dodge();
             foreach (var attColl in attackCollider)
             {
                 attColl.enabled = false;
@@ -183,6 +185,15 @@ public class PlayerMove : MonoBehaviour
             playerAnim.SetTrigger(_trigger);
         }
         playerAnim.SetInteger(_jumping, jumpCount);
+    }
+    public void Dodge()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && !isDodge)
+        {
+            isDodge = true;
+            playerAnim.SetInteger(_triggerNum, (int)AnimState.Dodge);
+            playerAnim.SetTrigger(_trigger);
+        }
     }
 
     public IEnumerator Dash()
