@@ -1781,6 +1781,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1749122691219388251, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749122691219388251, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 897c2ea7c400d27458393577ac6c8d92, type: 2}
     - target: {fileID: 1749122691381326112, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: m_Name
       value: RPG-Character
@@ -1831,7 +1839,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1749122691431737248, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1749122691431737248, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: m_Materials.Array.data[0]
