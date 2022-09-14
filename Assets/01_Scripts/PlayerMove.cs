@@ -9,6 +9,7 @@ enum AnimState
     GetHit = 12,
     Dodge = 28,
     Jump = 18,
+    Idle = 25
 }
 
 enum WeaponState
@@ -266,6 +267,8 @@ public class PlayerMove : MonoBehaviour
 
             weaponState++;
             weaponStateValue++;
+            playerAnim.SetInteger(_triggerNum, (int)AnimState.Idle);
+            playerAnim.SetTrigger(_trigger);
             playerNowMp -= 20f;
             while (timer >= -1)
             {
