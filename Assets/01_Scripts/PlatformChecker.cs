@@ -8,12 +8,12 @@ public class PlatformChecker : MonoBehaviour
     private bool isTriggered = false;
     private GameObject player;
     private Animator playerAnim;
-    private PlayerMove playerMove;
+    private PlayerController playerMove;
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerAnim = player.GetComponent<Animator>();
-        playerMove = player.GetComponentInParent<PlayerMove>();
+        playerMove = player.GetComponentInParent<PlayerController>();
         thisColl = this.GetComponent<Collider>();
     }
     private void OnTriggerEnter(Collider other)
