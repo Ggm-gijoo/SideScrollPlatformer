@@ -58,7 +58,7 @@ Material:
     - _CastShadows: 0
     - _Cull: 2
     - _DstBlend: 10
-    - _GRange: 2.5
+    - _GRange: 30
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 0
@@ -69,5 +69,5 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _GColor: {r: 1.945098, g: 2.572549, b: 7.247059, a: 0}
+    - _GColor: {r: 3.9460423, g: 5.160209, b: 14.494117, a: 0}
   m_BuildTextureStacks: []

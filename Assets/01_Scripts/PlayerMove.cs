@@ -101,7 +101,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        if (!isAttack)
+        if (!isAttack && !isDodge)
         {
             Move();
             Jump();
@@ -188,11 +188,15 @@ public class PlayerMove : MonoBehaviour
     }
     public void Dodge()
     {
-        if (Input.GetKeyDown(KeyCode.E) && !isDodge)
+        if (Input.GetKeyDown(KeyCode.E))
         {
             isDodge = true;
             playerAnim.SetInteger(_triggerNum, (int)AnimState.Dodge);
-            playerAnim.SetTrigger(_trigger);
+            playerAnim.SetTrigger(_trigger,()=>
+            {
+                isDodge = false;
+            },1f
+            );
         }
     }
 
@@ -278,8 +282,11 @@ public class PlayerMove : MonoBehaviour
 
             weaponState++;
             weaponStateValue++;
-            playerAnim.SetInteger(_triggerNum, (int)AnimState.Idle);
-            playerAnim.SetTrigger(_trigger);
+            if (jumpCount == 0)
+            {
+                playerAnim.SetInteger(_triggerNum, (int)AnimState.Idle);
+                playerAnim.SetTrigger(_trigger);
+            }
             playerNowMp -= 20f;
             while (timer >= -1)
             {
