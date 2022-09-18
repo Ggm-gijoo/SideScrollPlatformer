@@ -7,9 +7,11 @@ enum AnimState
 {
     Attack = 4,
     GetHit = 12,
-    Dodge = 28,
     Jump = 18,
-    Idle = 25
+    Idle = 25,
+    Knockback = 26,
+    Knockdown = 27,
+    Dodge = 28,
 }
 
 enum WeaponState

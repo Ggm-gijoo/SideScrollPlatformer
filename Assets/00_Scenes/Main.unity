@@ -1853,6 +1853,26 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 897c2ea7c400d27458393577ac6c8d92, type: 2}
+    - target: {fileID: 1749122691649571818, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749122691649571819, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: m_Size.x
+      value: 2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749122691649571819, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: m_Size.y
+      value: 2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749122691649571819, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: m_Size.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749122691649571819, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: m_Center.y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 1749122692019806165, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.7071068
