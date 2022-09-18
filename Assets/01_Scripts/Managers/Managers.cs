@@ -15,6 +15,14 @@ public class Managers : MonoBehaviour
         }
     }
 
+    #region System
+    SoundManager _sound = new SoundManager();
+    ResourceManager _resource = new ResourceManager();
+
+    public static SoundManager Sound { get { return Instance._sound; } }
+    public static ResourceManager Resource { get { return Instance._resource; } }
+    #endregion
+
     private void Awake()
     {
         Init();
@@ -33,7 +41,7 @@ public class Managers : MonoBehaviour
            DontDestroyOnLoad(obj);
            instance = obj.GetComponent<Managers>();
 
-           //instance._sound.Init();
-       }
+            instance._sound.Init();
+        }
     }
 }
