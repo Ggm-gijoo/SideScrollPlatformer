@@ -67,9 +67,9 @@ public class SoundManager
 
     AudioClip GetorAddAudioClip(string path, Define.Sound type = Define.Sound.Effect)
     {
-        if (path.Contains("Sounds/") == false)
+        if (path.Contains("08_Sounds/") == false)
         {
-            path = $"Sounds/{path}";
+            path = $"08_Sounds/{path}";
         }
         AudioClip audioClip = null;
         if (type == Define.Sound.Bgm)

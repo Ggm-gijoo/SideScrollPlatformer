@@ -16,9 +16,14 @@ public class Managers : MonoBehaviour
     }
 
     #region System
+
+    ScenesManager _scene = new ScenesManager();
+    PoolManager _pool = new PoolManager();
     SoundManager _sound = new SoundManager();
     ResourceManager _resource = new ResourceManager();
 
+    public static ScenesManager Scene { get { return Instance._scene; } }
+    public static PoolManager Pool { get { return Instance._pool; } }
     public static SoundManager Sound { get { return Instance._sound; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
     #endregion
@@ -41,7 +46,14 @@ public class Managers : MonoBehaviour
            DontDestroyOnLoad(obj);
            instance = obj.GetComponent<Managers>();
 
+            instance._pool.Init();
             instance._sound.Init();
         }
+    }
+
+    public static void Clear()
+    {
+        Scene.Clear();
+        Pool.Clear();
     }
 }

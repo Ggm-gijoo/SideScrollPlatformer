@@ -152,11 +152,15 @@ public class PlayerController : MonoBehaviour
     public void Move()
     {
         float h = Input.GetAxisRaw("Horizontal") * 0.5f;
-        if(h != 0)
+        if (h != 0 && jumpCount == 0)
         {
             playerAnim.transform.localRotation = Quaternion.Euler(Vector3.up * Mathf.Sign(h) * 90f);
+            playerAnim.SetFloat("Velocity Z", (playerRigid.velocity.x / playerStatus.MoveSpd) * Mathf.Sign(h));
         }
-        playerAnim.SetFloat("Velocity Z", (playerRigid.velocity.x / playerStatus.MoveSpd) * Mathf.Sign(h));
+        else
+        {
+            playerAnim.SetFloat("Velocity Z", playerRigid.velocity.x / playerStatus.MoveSpd);
+        }    
         isCanDash = Input.GetKey(KeyCode.LeftShift) && Mathf.Abs(h) > Mathf.Epsilon && jumpCount == 0 && IsCanAct(1);
         isAct = isCanDash;
 
@@ -288,6 +292,7 @@ public class PlayerController : MonoBehaviour
 
             weaponState++;
             weaponStateValue++;
+            Managers.Sound.Play("Player/SummonWeapon");
             if (jumpCount == 0)
             {
                 playerAnim.SetInteger(_triggerNum, (int)AnimState.Idle);
@@ -324,6 +329,7 @@ public class PlayerController : MonoBehaviour
         weaponVfx.transform.localRotation = Quaternion.Euler(0, 0, (attackMove + 1) % 2 * 180f);
         yield return new WaitForSeconds(0.5f);
         weaponVfx.gameObject.SetActive(true);
+        Managers.Sound.Play("Player/V_Sword_Swing");
         yield return new WaitForSeconds(0.4f);
         weaponVfx.gameObject.SetActive(false);
     }
