@@ -268,6 +268,10 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region ╫ц╫╨еш
+    public void WeaponSoundPlay()
+    {
+        Managers.Sound.Play($"Player/Sword{Random.Range(1, 7)}");
+    }
     public IEnumerator RecoveryStamina()
     {
         while (true)
@@ -329,7 +333,7 @@ public class PlayerController : MonoBehaviour
         weaponVfx.transform.localRotation = Quaternion.Euler(0, 0, (attackMove + 1) % 2 * 180f);
         yield return new WaitForSeconds(0.5f);
         weaponVfx.gameObject.SetActive(true);
-        Managers.Sound.Play("Player/V_Sword_Swing");
+        WeaponSoundPlay();
         yield return new WaitForSeconds(0.4f);
         weaponVfx.gameObject.SetActive(false);
     }
