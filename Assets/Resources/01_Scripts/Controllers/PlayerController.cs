@@ -245,13 +245,17 @@ public class PlayerController : MonoBehaviour
                     StartCoroutine(WeaponVfxPlay());
                     attackCollider[2].enabled = true;
                 }
-                else if (attackMove % 2 == 0)
-                {
-                    attackCollider[1].enabled = true;
-                }
                 else
                 {
-                    attackCollider[0].enabled = true;
+                    Managers.Sound.Play($"Player/Sword_Swing_0{Random.Range(0, 2)}");
+                    if (attackMove % 2 == 0)
+                    {
+                        attackCollider[1].enabled = true;
+                    }
+                    else
+                    {
+                        attackCollider[0].enabled = true;
+                    }
                 }
 
                 playerAnim.SetInteger(_action, attackMove);
