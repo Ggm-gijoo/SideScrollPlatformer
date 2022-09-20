@@ -232,39 +232,59 @@ public class PlayerController : MonoBehaviour
             if (IsCanAct((int)weaponType + 5) && !isAttack)
             {
                 isAttack = true;
+                int attackAnimCount = 0;
                 playerNowStamina -= (int)weaponType + 5;
                 playerAnim.SetInteger(_triggerNum, (int)AnimState.Attack);
-                if (attackMove >= 6)
+                switch (weaponState)
+                {
+                    case WeaponState.None:
+                        attackAnimCount = 6;
+                        Managers.Sound.Play($"Player/Sword_Swing_0{Random.Range(0, 2)}");
+                        if ((attackMove + 1) % 2 == 0)
+                        {
+                            attackCollider[1].enabled = true;
+                        }
+                        else
+                        {
+                            attackCollider[0].enabled = true;
+                        }
+                        break;
+
+                    case WeaponState.Sword:
+                        attackAnimCount = 6;
+                        StartCoroutine(WeaponVfxPlay());
+                        attackCollider[2].enabled = true;
+                        break;
+
+                    case WeaponState.Bow:
+                        attackAnimCount = 3;
+                        break;
+                }
+                if (attackMove >= attackAnimCount)
                 {
                     attackMove = 0;
                 }
                 attackMove++;
 
-                if (weaponState == WeaponState.Sword)
+                playerAnim.SetInteger(_action, attackMove);
+                if (weaponState == WeaponState.Bow && Input.GetMouseButtonUp(0))
                 {
-                    StartCoroutine(WeaponVfxPlay());
-                    attackCollider[2].enabled = true;
+                    playerAnim.SetTrigger(_trigger, () =>
+                    {
+                        isAttack = false;
+                        weaponVfx.gameObject.SetActive(false);
+                    }, (float)weaponType * 0.2f + 0.6f
+                    );
                 }
                 else
                 {
-                    Managers.Sound.Play($"Player/Sword_Swing_0{Random.Range(0, 2)}");
-                    if (attackMove % 2 == 0)
+                    playerAnim.SetTrigger(_trigger, () =>
                     {
-                        attackCollider[1].enabled = true;
-                    }
-                    else
-                    {
-                        attackCollider[0].enabled = true;
-                    }
+                        isAttack = false;
+                        weaponVfx.gameObject.SetActive(false);
+                    }, (float)weaponType * 0.2f + 0.6f
+                    );
                 }
-
-                playerAnim.SetInteger(_action, attackMove);
-                playerAnim.SetTrigger(_trigger, () =>
-                {
-                    isAttack = false;
-                    weaponVfx.gameObject.SetActive(false);
-                }, (float)weaponType * 0.2f + 0.6f
-                );
             }
         }
     }
@@ -300,6 +320,7 @@ public class PlayerController : MonoBehaviour
 
             weaponState++;
             weaponStateValue++;
+            attackMove = 0;
             Managers.Sound.Play("Player/SummonWeapon");
             if (jumpCount == 0)
             {
@@ -311,7 +332,7 @@ public class PlayerController : MonoBehaviour
             {
                 yield return new WaitForSeconds(0.05f);
                 timer -= 0.1f;
-                weaponRenderer[weaponStateValue - 1].material.SetFloat(_alpha, timer);
+                weaponRenderer[weaponStateValue - 1]?.material.SetFloat(_alpha, timer);
             }
         }
     }
@@ -324,12 +345,18 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
             timer += 0.1f;
             weaponRenderer[weaponStateValue - 1].material.SetFloat(_alpha, timer);
-            if (timer >= 0.7f)
-            {
-                weaponState = WeaponState.None;
-            }
         }
-        foreach(var weapon in weapons)
+
+        weaponState = WeaponState.None;
+        weaponStateValue = (int)weaponState;
+
+        if (jumpCount == 0)
+        {
+            playerAnim.SetInteger(_triggerNum, (int)AnimState.Idle);
+            playerAnim.SetTrigger(_trigger);
+        }
+
+        foreach (var weapon in weapons)
         weapon.SetActive(false);
     }
     public IEnumerator WeaponVfxPlay()
