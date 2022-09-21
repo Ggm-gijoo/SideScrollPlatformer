@@ -1602,6 +1602,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RPG-Character
       objectReference: {fileID: 0}
+    - target: {fileID: 844358545714139240, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 844358545714139240, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: f23a74ca1899c0843b633a66a63b287e, type: 2}
     - target: {fileID: 844358545841166400, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: m_RootOrder
       value: 2

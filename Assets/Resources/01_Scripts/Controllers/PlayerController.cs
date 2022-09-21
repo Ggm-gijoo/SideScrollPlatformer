@@ -12,6 +12,7 @@ enum AnimState
     Knockback = 26,
     Knockdown = 27,
     Dodge = 28,
+    Skill = 30,
 }
 
 enum WeaponState
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour
     private bool isDash = false;
     private bool isDodge = false;
     public bool isLand = false;
+    private bool isSkill = false;
 
     private const string _alpha = "_Alpha";
 
@@ -73,6 +75,7 @@ public class PlayerController : MonoBehaviour
     private readonly int _weapon = Animator.StringToHash("Weapon");
     private readonly int _action = Animator.StringToHash("Action");
     private readonly int _jumping = Animator.StringToHash("Jumping");
+    private readonly int _skill = Animator.StringToHash("Skill");
 
     WeaponState weaponState = WeaponState.None;
     WeaponType weaponType = WeaponType.Light;
@@ -103,11 +106,12 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (!isAttack && !isDodge)
+        if (!isAttack && !isDodge && !isSkill)
         {
             Move();
             Jump();
             Dodge();
+            Skill();
             foreach (var attColl in attackCollider)
             {
                 attColl.enabled = false;
@@ -267,14 +271,17 @@ public class PlayerController : MonoBehaviour
                 attackMove++;
 
                 playerAnim.SetInteger(_action, attackMove);
-                if (weaponState == WeaponState.Bow && Input.GetMouseButtonUp(0))
+                if (weaponState == WeaponState.Bow)
                 {
-                    playerAnim.SetTrigger(_trigger, () =>
+                    if (Input.GetMouseButtonUp(0))
                     {
-                        isAttack = false;
-                        weaponVfx.gameObject.SetActive(false);
-                    }, (float)weaponType * 0.2f + 0.6f
-                    );
+                        playerAnim.SetTrigger(_trigger, () =>
+                        {
+                            isAttack = false;
+                            weaponVfx.gameObject.SetActive(false);
+                        }, (float)weaponType * 0.2f + 0.6f
+                        );
+                    }
                 }
                 else
                 {
@@ -286,6 +293,20 @@ public class PlayerController : MonoBehaviour
                     );
                 }
             }
+        }
+    }
+
+    public void Skill()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && !playerAnim.GetBool(_moving) && jumpCount == 0)
+        {
+            isSkill = true;
+            playerAnim.SetInteger(_skill, 1);
+            playerAnim.SetInteger(_triggerNum, (int)AnimState.Skill);
+            playerAnim.SetTrigger(_trigger, ()=>
+            {
+                isSkill = false;
+            },1.2f);
         }
     }
     #endregion
@@ -350,6 +371,8 @@ public class PlayerController : MonoBehaviour
         weaponState = WeaponState.None;
         weaponStateValue = (int)weaponState;
 
+        yield return null;
+
         if (jumpCount == 0)
         {
             playerAnim.SetInteger(_triggerNum, (int)AnimState.Idle);
@@ -361,7 +384,7 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator WeaponVfxPlay()
     {
-        weaponVfx.transform.localRotation = Quaternion.Euler(0, 0, (attackMove + 1) % 2 * 180f);
+        weaponVfx.transform.localRotation = Quaternion.Euler(0, 0, attackMove % 2 * 180f);
         yield return new WaitForSeconds(0.5f);
         weaponVfx.gameObject.SetActive(true);
         WeaponSoundPlay();
