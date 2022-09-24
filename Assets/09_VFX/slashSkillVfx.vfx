@@ -1193,7 +1193,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1.5
+      m_SerializableObject: 1.25
     m_Space: 2147483647
   m_Property:
     name: Size
@@ -4267,7 +4267,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1.45
+      m_SerializableObject: 1.2
     m_Space: 2147483647
   m_Property:
     name: Size
@@ -9811,7 +9811,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":15.659985542297364,"g":27.087543487548829,"b":80.83938598632813,"a":3.0}'
+      m_SerializableObject: '{"r":15.6599760055542,"g":27.087526321411134,"b":80.8393325805664,"a":3.0}'
     m_Space: 2147483647
   m_Property:
     name: _Color
