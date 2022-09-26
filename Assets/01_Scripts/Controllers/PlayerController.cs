@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("¹«±â VFX")]
     [SerializeField] GameObject weaponVfxTrs;
-    VisualEffect weaponVfx;
+    [SerializeField] GameObject[] weaponSkillVfx;
 
     Renderer[] weaponRenderer = new Renderer[100];
     
@@ -86,7 +86,6 @@ public class PlayerController : MonoBehaviour
     {
         playerAnim = GetComponentInChildren<Animator>();
         playerRigid = GetComponent<Rigidbody>();
-        weaponVfx = weaponVfxTrs.GetComponentInChildren<VisualEffect>();
 
         int i = 0;
         foreach(var weapon in weapons)
@@ -95,7 +94,7 @@ public class PlayerController : MonoBehaviour
             weapon.SetActive(false);
             i++;
         }
-        weaponVfx.gameObject.SetActive(false);
+        weaponVfxTrs.gameObject.SetActive(false);
 
         playerNowHp = playerStatus.Hp;
         playerNowMp = playerStatus.Mp;
@@ -275,7 +274,7 @@ public class PlayerController : MonoBehaviour
                 playerAnim.SetTrigger(_trigger, () =>
                 {
                     isAttack = false;
-                    weaponVfx.gameObject.SetActive(false);
+                    weaponVfxTrs.gameObject.SetActive(false);
                 }, (float)weaponType * 0.2f + 0.6f
                 );
             }
@@ -287,10 +286,13 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && !playerAnim.GetBool(_moving) && jumpCount == 0)
         {
             isSkill = true;
+            weaponSkillVfx[weaponStateValue]?.SetActive(true);
             playerAnim.SetInteger(_skill, 1);
             playerAnim.SetInteger(_triggerNum, (int)AnimState.Skill);
             playerAnim.SetTrigger(_trigger, ()=>
             {
+                weaponSkillVfx[weaponStateValue]?.SetActive(false);
+                weaponSkillVfx[weaponStateValue].transform.localPosition = Vector3.zero;
                 isSkill = false;
             },1.2f);
         }
@@ -370,12 +372,12 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator WeaponVfxPlay()
     {
-        weaponVfx.transform.localRotation = Quaternion.Euler(0, 0, attackMove % 2 * 180f);
+        weaponVfxTrs.transform.localRotation = Quaternion.Euler(0, 0, attackMove % 2 * 180f);
         yield return new WaitForSeconds(0.5f);
-        weaponVfx.gameObject.SetActive(true);
+        weaponVfxTrs.gameObject.SetActive(true);
         WeaponSoundPlay();
         yield return new WaitForSeconds(0.4f);
-        weaponVfx.gameObject.SetActive(false);
+        weaponVfxTrs.gameObject.SetActive(false);
     }
     #endregion
 
