@@ -287,14 +287,17 @@ public class PlayerController : MonoBehaviour
         {
             isSkill = true;
             weaponSkillVfx[weaponStateValue]?.SetActive(true);
+            Time.timeScale = 0.7f;
+
             playerAnim.SetInteger(_skill, 1);
             playerAnim.SetInteger(_triggerNum, (int)AnimState.Skill);
             playerAnim.SetTrigger(_trigger, ()=>
             {
+                Time.timeScale = 1f;
                 weaponSkillVfx[weaponStateValue]?.SetActive(false);
                 weaponSkillVfx[weaponStateValue].transform.localPosition = Vector3.zero;
                 isSkill = false;
-            },1.2f);
+            },1.5f);
         }
     }
     #endregion

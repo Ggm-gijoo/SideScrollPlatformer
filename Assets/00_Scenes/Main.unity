@@ -966,6 +966,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035137335}
   m_CullTransparentMesh: 1
+--- !u!1 &1089876004 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 844358547069307492, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+  m_PrefabInstance: {fileID: 844358545297521958}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1098573199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1850,9 +1855,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1934567963}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.004000098, y: 0.003999889, z: 0.5000001}
+  m_LocalScale: {x: 1.0800002, y: 1.0800002, z: 1.08}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 823318251}
@@ -2070,6 +2075,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RPG-Character
       objectReference: {fileID: 0}
+    - target: {fileID: 844358545678054081, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
+      propertyPath: weaponVfxTrs
+      value: 
+      objectReference: {fileID: 1089876004}
     - target: {fileID: 844358545678054081, guid: 46bbc1c737be5994c8a8f6d1671cc123, type: 3}
       propertyPath: weaponSkillVfx.Array.size
       value: 2
