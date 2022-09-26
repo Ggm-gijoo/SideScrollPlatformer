@@ -1709,7 +1709,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 7
+      m_SerializableObject: 10
     m_Space: 2147483647
   m_Property:
     name: _VoronoiScale
@@ -2607,7 +2607,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 5
+      m_SerializableObject: 10
     m_Space: 2147483647
   m_Property:
     name: _VoronoiScale
@@ -2770,7 +2770,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 0.85
     m_Space: 2147483647
   m_Property:
     name: Size
@@ -3803,7 +3803,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":5.6978983879089359,"g":10.656850814819336,"b":54.41494369506836,"a":3.0}'
+      m_SerializableObject: '{"r":0.0,"g":8.29936695098877,"b":226.45416259765626,"a":3.0}'
     m_Space: 2147483647
   m_Property:
     name: _Color
@@ -3973,7 +3973,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":8.631800651550293,"g":9.873289108276368,"b":39.10132598876953,"a":2.0}'
+      m_SerializableObject: '{"r":25.56769561767578,"g":80.80652618408203,"b":288.3167419433594,"a":2.0}'
     m_Space: 2147483647
   m_Property:
     name: _Color
@@ -5306,7 +5306,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 0.95
     m_Space: 2147483647
   m_Property:
     name: Size
@@ -5340,7 +5340,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 7
+      m_SerializableObject: 10
     m_Space: 2147483647
   m_Property:
     name: _VoronoiScale
@@ -5578,7 +5578,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Mesh, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":5775079688317922026,"guid":"515f17bf9e669da4ca35cf2046299ac2","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":-968276732803099167,"guid":"db59774384f6d864d9f36e1169fce1e2","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: mesh
