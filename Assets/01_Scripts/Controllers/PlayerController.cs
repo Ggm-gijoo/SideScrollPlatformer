@@ -286,7 +286,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && !playerAnim.GetBool(_moving) && jumpCount == 0)
         {
             isSkill = true;
-            weaponSkillVfx[weaponStateValue]?.SetActive(true);
+            weaponSkillVfx?[weaponStateValue]?.SetActive(true);
             Time.timeScale = 0.7f;
 
             playerAnim.SetInteger(_skill, 1);
