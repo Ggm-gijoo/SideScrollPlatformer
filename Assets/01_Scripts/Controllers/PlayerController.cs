@@ -201,18 +201,9 @@ public class PlayerController : MonoBehaviour
             {
                 isAttack = true;
                 playerNowStamina -= (int)weaponType + 5;
+
                 playerAnim.SetInteger(_triggerNum, (int)AnimState.Attack);
-                //switch (weaponState)
-                //{
-                //    case WeaponState.None:
-                //        break;
 
-                //    case WeaponState.Sword:
-                //        break;
-
-                //    case WeaponState.Bow:
-                //        break;
-                //}
                 attackMove = weapons[(int)weaponState].GetComponent<WeaponDefault>().Attack(attackMove);
 
                 Debug.Log(attackMove);
