@@ -3,32 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
-enum AnimState
-{
-    Attack = 4,
-    GetHit = 12,
-    Jump = 18,
-    Idle = 25,
-    Knockback = 26,
-    Knockdown = 27,
-    Dodge = 28,
-    Skill = 30,
-}
-
-enum WeaponState
-{
-    None = 0,
-    Sword,
-    Bow
-}
-
-enum WeaponType
-{
-    Light = 0,
-    Medium,
-    Heavy
-}
-
 public class PlayerController : MonoBehaviour
 {
     [Header("플레이어 SO")]
@@ -36,13 +10,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("무기")]
     [SerializeField] GameObject[] weapons;
-
-    [Header("공격 판정")]
-    [SerializeField] BoxCollider[] attackCollider;
-
-    [Header("무기 VFX")]
-    [SerializeField] GameObject weaponVfxTrs;
-    [SerializeField] GameObject[] weaponSkillVfx;
 
     Renderer[] weaponRenderer = new Renderer[100];
     
@@ -55,9 +22,8 @@ public class PlayerController : MonoBehaviour
     public float playerNowStamina;
 
     public int jumpCount = 0;
-    private int attackMove = 0;
+    private static int attackMove = 0;
     private int weaponStateValue = 0;
-    public Vector3 trailRotationDist = new Vector3(0, 180, 0);
 
     private bool isAct = false;
     private bool isAttack = false;
@@ -67,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public bool isLand = false;
     private bool isSkill = false;
 
+    #region 메모리캐싱
     private const string _alpha = "_Alpha";
 
     private readonly int _trigger = Animator.StringToHash("Trigger");
@@ -76,12 +43,11 @@ public class PlayerController : MonoBehaviour
     private readonly int _action = Animator.StringToHash("Action");
     private readonly int _jumping = Animator.StringToHash("Jumping");
     private readonly int _skill = Animator.StringToHash("Skill");
-
+    #endregion
     WeaponState weaponState = WeaponState.None;
     WeaponType weaponType = WeaponType.Light;
     #endregion
 
-    #region 스타트 업데이트
     private void Start()
     {
         playerAnim = GetComponentInChildren<Animator>();
@@ -94,7 +60,7 @@ public class PlayerController : MonoBehaviour
             weapon.SetActive(false);
             i++;
         }
-        weaponVfxTrs.gameObject.SetActive(false);
+        Variables.Instance.WeaponVfx[0].gameObject.SetActive(false);
 
         playerNowHp = playerStatus.Hp;
         playerNowMp = playerStatus.Mp;
@@ -111,7 +77,7 @@ public class PlayerController : MonoBehaviour
             Jump();
             Dodge();
             Skill();
-            foreach (var attColl in attackCollider)
+            foreach (var attColl in Variables.Instance.AttackCollider)
             {
                 attColl.enabled = false;
             }
@@ -121,7 +87,7 @@ public class PlayerController : MonoBehaviour
             Attack();
         }
    
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             switch(weaponState)
             {
@@ -130,7 +96,7 @@ public class PlayerController : MonoBehaviour
                     weaponType = WeaponType.Heavy;
                     break;
                 case WeaponState.Sword:
-                    weapons[0].SetActive(false);
+                    weapons[1].SetActive(false);
                     StartCoroutine(SummonWeapon());
                     weaponType = WeaponType.Medium;
                     break;
@@ -142,16 +108,14 @@ public class PlayerController : MonoBehaviour
         }
         playerAnim.SetInteger(_weapon, weaponStateValue);
     }
-    #endregion
-
     public bool IsCanAct(float useStamina)
     {
         if (playerNowStamina > useStamina)
             return true;
         return false;
     }
-    #region 조작
-    #region 이동
+#region 조작
+#region 이동
     public void Move()
     {
         float h = Input.GetAxisRaw("Horizontal") * 0.5f;
@@ -164,6 +128,7 @@ public class PlayerController : MonoBehaviour
         {
             playerAnim.SetFloat("Velocity Z", playerRigid.velocity.x / playerStatus.MoveSpd);
         }    
+
         isCanDash = Input.GetKey(KeyCode.LeftShift) && Mathf.Abs(h) > Mathf.Epsilon && jumpCount == 0 && IsCanAct(1);
         isAct = isCanDash;
 
@@ -225,9 +190,9 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    #endregion
+#endregion
 
-    #region 공격
+#region 공격
     public void Attack()
     {
         if (Input.GetMouseButton(0) && isLand)
@@ -235,46 +200,28 @@ public class PlayerController : MonoBehaviour
             if (IsCanAct((int)weaponType + 5) && !isAttack)
             {
                 isAttack = true;
-                int attackAnimCount = 0;
                 playerNowStamina -= (int)weaponType + 5;
                 playerAnim.SetInteger(_triggerNum, (int)AnimState.Attack);
-                switch (weaponState)
-                {
-                    case WeaponState.None:
-                        attackAnimCount = 6;
-                        Managers.Sound.Play($"Player/Sword_Swing_0{Random.Range(0, 2)}");
-                        if ((attackMove + 1) % 2 == 0)
-                        {
-                            attackCollider[1].enabled = true;
-                        }
-                        else
-                        {
-                            attackCollider[0].enabled = true;
-                        }
-                        break;
+                //switch (weaponState)
+                //{
+                //    case WeaponState.None:
+                //        break;
 
-                    case WeaponState.Sword:
-                        attackAnimCount = 6;
-                        StartCoroutine(WeaponVfxPlay());
-                        attackCollider[2].enabled = true;
-                        break;
+                //    case WeaponState.Sword:
+                //        break;
 
-                    case WeaponState.Bow:
-                        attackAnimCount = 3;
-                        break;
-                }
-                if (attackMove >= attackAnimCount)
-                {
-                    attackMove = 0;
-                }
-                attackMove++;
+                //    case WeaponState.Bow:
+                //        break;
+                //}
+                attackMove = weapons[(int)weaponState].GetComponent<WeaponDefault>().Attack(attackMove);
 
+                Debug.Log(attackMove);
                 playerAnim.SetInteger(_action, attackMove);
 
                 playerAnim.SetTrigger(_trigger, () =>
                 {
                     isAttack = false;
-                    weaponVfxTrs.gameObject.SetActive(false);
+                    Variables.Instance?.WeaponVfx?[0]?.gameObject.SetActive(false);
                 }, (float)weaponType * 0.2f + 0.6f
                 );
             }
@@ -286,7 +233,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && !playerAnim.GetBool(_moving) && jumpCount == 0)
         {
             isSkill = true;
-            weaponSkillVfx?[weaponStateValue]?.SetActive(true);
+            Variables.Instance.WeaponSkillVfx?[weaponStateValue]?.SetActive(true);
             Time.timeScale = 0.7f;
 
             playerAnim.SetInteger(_skill, 1);
@@ -294,20 +241,16 @@ public class PlayerController : MonoBehaviour
             playerAnim.SetTrigger(_trigger, ()=>
             {
                 Time.timeScale = 1f;
-                weaponSkillVfx[weaponStateValue]?.SetActive(false);
-                weaponSkillVfx[weaponStateValue].transform.localPosition = Vector3.zero;
+                Variables.Instance.WeaponSkillVfx[weaponStateValue]?.SetActive(false);
+                Variables.Instance.WeaponSkillVfx[weaponStateValue].transform.localPosition = Vector3.zero;
                 isSkill = false;
             },1.5f);
         }
     }
-    #endregion
-    #endregion
+#endregion
+#endregion
 
     #region 시스템
-    public void WeaponSoundPlay()
-    {
-        Managers.Sound.Play($"Player/Sword{Random.Range(1, 7)}");
-    }
     public IEnumerator RecoveryStamina()
     {
         while (true)
@@ -328,23 +271,25 @@ public class PlayerController : MonoBehaviour
         {
             timer = 1f;
             weaponStateValue = (int)weaponState;
-            weapons[weaponStateValue].SetActive(true);
+            weapons[weaponStateValue + 1].SetActive(true);
 
             weaponState++;
             weaponStateValue++;
+
             attackMove = 0;
+
             Managers.Sound.Play("Player/SummonWeapon");
             if (jumpCount == 0)
             {
                 playerAnim.SetInteger(_triggerNum, (int)AnimState.Idle);
                 playerAnim.SetTrigger(_trigger);
             }
-            playerNowMp -= 20f;
+
             while (timer >= -1)
             {
                 yield return new WaitForSeconds(0.05f);
                 timer -= 0.1f;
-                weaponRenderer[weaponStateValue - 1]?.material.SetFloat(_alpha, timer);
+                weaponRenderer[weaponStateValue]?.material.SetFloat(_alpha, timer);
             }
         }
     }
@@ -373,16 +318,7 @@ public class PlayerController : MonoBehaviour
         foreach (var weapon in weapons)
         weapon.SetActive(false);
     }
-    public IEnumerator WeaponVfxPlay()
-    {
-        weaponVfxTrs.transform.localRotation = Quaternion.Euler(0, 0, attackMove % 2 * 180f);
-        yield return new WaitForSeconds(0.5f);
-        weaponVfxTrs.gameObject.SetActive(true);
-        WeaponSoundPlay();
-        yield return new WaitForSeconds(0.4f);
-        weaponVfxTrs.gameObject.SetActive(false);
-    }
-    #endregion
+#endregion
 
     private void OnCollisionEnter(Collision collision)
     {
