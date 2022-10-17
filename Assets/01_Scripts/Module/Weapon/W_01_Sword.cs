@@ -1,15 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class W_01_Sword : WeaponDefault
 {
 
-    public override int Attack(int attackMove)
+    public override void Attack(int attackMove, Action<int> Callback = null)
     {
         StartCoroutine(WeaponVfxPlay(attackMove, new WaitForSeconds(0.3f)));
         Variables.Instance.AttackCollider[2].enabled = true;
-        
+        Callback?.Invoke(0);
+    }
+    public override int ReturnAttackMove(int attackMove)
+    {
         attackMove = attackMove % 6 + 1;
 
         return attackMove;

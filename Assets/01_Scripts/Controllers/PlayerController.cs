@@ -195,7 +195,7 @@ public class PlayerController : MonoBehaviour
 #region АјАн
     public void Attack()
     {
-        if (Input.GetMouseButton(0) && isLand)
+        if (Input.GetMouseButtonDown(0) && isLand)
         {
             if (IsCanAct((int)weaponType + 5) && !isAttack)
             {
@@ -204,17 +204,21 @@ public class PlayerController : MonoBehaviour
 
                 playerAnim.SetInteger(_triggerNum, (int)AnimState.Attack);
 
-                attackMove = weapons[(int)weaponState].GetComponent<WeaponDefault>().Attack(attackMove);
-
-                Debug.Log(attackMove);
-                playerAnim.SetInteger(_action, attackMove);
-
-                playerAnim.SetTrigger(_trigger, () =>
+                attackMove = weapons[(int)weaponState].GetComponent<WeaponDefault>().ReturnAttackMove(attackMove);
+                
+                
+                weapons[(int)weaponState].GetComponent<WeaponDefault>().Attack(attackMove, (returnValue) =>
                 {
-                    isAttack = false;
-                    Variables.Instance?.WeaponVfx?[0]?.gameObject.SetActive(false);
-                }, (float)weaponType * 0.2f + 0.6f
-                );
+                    playerAnim.SetInteger(_action, attackMove);
+
+                    playerAnim.SetTrigger(_trigger, () =>
+                    {
+                        isAttack = false;
+                        Variables.Instance?.WeaponVfx?[0]?.gameObject.SetActive(false);
+                    }, (float)weaponType * 0.2f + 0.6f
+                    );
+                });
+
             }
         }
     }
