@@ -195,7 +195,7 @@ public class PlayerController : MonoBehaviour
 #region АјАн
     public void Attack()
     {
-        if (Input.GetMouseButtonDown(0) && isLand)
+        if (Input.GetMouseButton(0) && isLand)
         {
             if (IsCanAct((int)weaponType + 5) && !isAttack)
             {
@@ -228,7 +228,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && !playerAnim.GetBool(_moving) && jumpCount == 0)
         {
             isSkill = true;
-            Variables.Instance.WeaponSkillVfx?[weaponStateValue]?.SetActive(true);
+            Variables.Instance.WeaponSkillVfx[weaponStateValue]?.SetActive(true);
             Time.timeScale = 0.7f;
 
             playerAnim.SetInteger(_skill, 1);

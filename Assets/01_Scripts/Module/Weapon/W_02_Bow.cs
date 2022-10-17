@@ -21,13 +21,13 @@ public class W_02_Bow : WeaponDefault
         Debug.Log("ChargeAttack S");
         float chargeTime = 0f;
 
-        while (chargeTime <= 5f && Input.GetMouseButton(0))
+        while (chargeTime <= 2f && Input.GetMouseButton(0))
         {
             chargeTime += Time.deltaTime;
             yield return null;
         }
 
-        if (chargeTime >= 5f)
+        if (chargeTime >= 2f)
             Debug.Log("Charged!");
 
         chargeTime = 0;
