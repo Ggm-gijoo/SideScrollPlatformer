@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class W_02_Bow : WeaponDefault
 {
+    Animator playerAnim;
+    
+
     public override void Attack(int attackMove, Action<int> Callback = null)
     {
         StartCoroutine(ChargeAttack(attackMove, Callback));

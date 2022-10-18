@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
 
     Renderer[] weaponRenderer = new Renderer[100];
     
-    private Animator playerAnim;
     private Rigidbody playerRigid;
     #region 스테이터스
     [Header("스테이터스")]
@@ -50,7 +49,6 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        playerAnim = GetComponentInChildren<Animator>();
         playerRigid = GetComponent<Rigidbody>();
 
         int i = 0;
@@ -82,7 +80,7 @@ public class PlayerController : MonoBehaviour
                 attColl.enabled = false;
             }
         }
-        if (!playerAnim.GetBool(_moving))
+        if (!Variables.Instance.PlayerAnim.GetBool(_moving))
         {
             Attack();
         }
@@ -106,7 +104,7 @@ public class PlayerController : MonoBehaviour
                     break;
             }
         }
-        playerAnim.SetInteger(_weapon, weaponStateValue);
+        Variables.Instance.PlayerAnim.SetInteger(_weapon, weaponStateValue);
     }
     public bool IsCanAct(float useStamina)
     {
@@ -121,12 +119,12 @@ public class PlayerController : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal") * 0.5f;
         if (h != 0 && jumpCount == 0)
         {
-            playerAnim.transform.localRotation = Quaternion.Euler(Vector3.up * Mathf.Sign(h) * 90f);
-            playerAnim.SetFloat("Velocity Z", (playerRigid.velocity.x / playerStatus.MoveSpd) * Mathf.Sign(h));
+            Variables.Instance.PlayerAnim.transform.localRotation = Quaternion.Euler(Vector3.up * Mathf.Sign(h) * 90f);
+            Variables.Instance.PlayerAnim.SetFloat("Velocity Z", (playerRigid.velocity.x / playerStatus.MoveSpd) * Mathf.Sign(h));
         }
         else
         {
-            playerAnim.SetFloat("Velocity Z", playerRigid.velocity.x / playerStatus.MoveSpd);
+            Variables.Instance.PlayerAnim.SetFloat("Velocity Z", playerRigid.velocity.x / playerStatus.MoveSpd);
         }    
 
         isCanDash = Input.GetKey(KeyCode.LeftShift) && Mathf.Abs(h) > Mathf.Epsilon && jumpCount == 0 && IsCanAct(1);
@@ -143,7 +141,7 @@ public class PlayerController : MonoBehaviour
             playerRigid.velocity = new Vector3(h * playerStatus.MoveSpd, playerRigid.velocity.y, playerRigid.velocity.z);
         }
 
-        playerAnim.SetBool(_moving, Mathf.Abs(h) > Mathf.Epsilon);
+        Variables.Instance.PlayerAnim.SetBool(_moving, Mathf.Abs(h) > Mathf.Epsilon);
     }
 
     public void Jump()
@@ -157,20 +155,20 @@ public class PlayerController : MonoBehaviour
             }
             else
                 jumpCount++;
-            playerAnim.SetInteger(_jumping, jumpCount);
+            Variables.Instance.PlayerAnim.SetInteger(_jumping, jumpCount);
             playerRigid.AddForce(Vector3.up * playerStatus.JumpForce * 100f, ForceMode.Impulse);
-            playerAnim.SetInteger(_triggerNum, (int)AnimState.Jump);
-            playerAnim.SetTrigger(_trigger);
+            Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Jump);
+            Variables.Instance.PlayerAnim.SetTrigger(_trigger);
         }
-        playerAnim.SetInteger(_jumping, jumpCount);
+        Variables.Instance.PlayerAnim.SetInteger(_jumping, jumpCount);
     }
     public void Dodge()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
             isDodge = true;
-            playerAnim.SetInteger(_triggerNum, (int)AnimState.Dodge);
-            playerAnim.SetTrigger(_trigger,()=>
+            Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Dodge);
+            Variables.Instance.PlayerAnim.SetTrigger(_trigger,()=>
             {
                 isDodge = false;
             },1f
@@ -202,16 +200,15 @@ public class PlayerController : MonoBehaviour
                 isAttack = true;
                 playerNowStamina -= (int)weaponType + 5;
 
-                playerAnim.SetInteger(_triggerNum, (int)AnimState.Attack);
-
-                attackMove = weapons[(int)weaponState].GetComponent<WeaponDefault>().ReturnAttackMove(attackMove);
+                Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Attack);
                 
                 
                 weapons[(int)weaponState].GetComponent<WeaponDefault>().Attack(attackMove, (returnValue) =>
                 {
-                    playerAnim.SetInteger(_action, attackMove);
+                    attackMove = weapons[(int)weaponState].GetComponent<WeaponDefault>().ReturnAttackMove(attackMove);
+                    Variables.Instance.PlayerAnim.SetInteger(_action, attackMove);
 
-                    playerAnim.SetTrigger(_trigger, () =>
+                    Variables.Instance.PlayerAnim.SetTrigger(_trigger, () =>
                     {
                         isAttack = false;
                         Variables.Instance?.WeaponVfx?[0]?.gameObject.SetActive(false);
@@ -225,15 +222,15 @@ public class PlayerController : MonoBehaviour
 
     public void Skill()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !playerAnim.GetBool(_moving) && jumpCount == 0)
+        if (Input.GetKeyDown(KeyCode.R) && !Variables.Instance.PlayerAnim.GetBool(_moving) && jumpCount == 0)
         {
             isSkill = true;
             Variables.Instance.WeaponSkillVfx[weaponStateValue]?.SetActive(true);
             Time.timeScale = 0.7f;
 
-            playerAnim.SetInteger(_skill, 1);
-            playerAnim.SetInteger(_triggerNum, (int)AnimState.Skill);
-            playerAnim.SetTrigger(_trigger, ()=>
+            Variables.Instance.PlayerAnim.SetInteger(_skill, 1);
+            Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Skill);
+            Variables.Instance.PlayerAnim.SetTrigger(_trigger, ()=>
             {
                 Time.timeScale = 1f;
                 Variables.Instance.WeaponSkillVfx[weaponStateValue]?.SetActive(false);
@@ -276,8 +273,8 @@ public class PlayerController : MonoBehaviour
             Managers.Sound.Play("Player/SummonWeapon");
             if (jumpCount == 0)
             {
-                playerAnim.SetInteger(_triggerNum, (int)AnimState.Idle);
-                playerAnim.SetTrigger(_trigger);
+                Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Idle);
+                Variables.Instance.PlayerAnim.SetTrigger(_trigger);
             }
 
             while (timer >= -1)
@@ -306,8 +303,8 @@ public class PlayerController : MonoBehaviour
 
         if (jumpCount == 0)
         {
-            playerAnim.SetInteger(_triggerNum, (int)AnimState.Idle);
-            playerAnim.SetTrigger(_trigger);
+            Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Idle);
+            Variables.Instance.PlayerAnim.SetTrigger(_trigger);
         }
 
         foreach (var weapon in weapons)
@@ -321,7 +318,7 @@ public class PlayerController : MonoBehaviour
         {
             isLand = true;
             jumpCount = 0;
-            playerAnim.SetTrigger(_trigger);
+            Variables.Instance.PlayerAnim.SetTrigger(_trigger);
         }
     }
 }

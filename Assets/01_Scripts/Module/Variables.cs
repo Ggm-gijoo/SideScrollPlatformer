@@ -40,9 +40,14 @@ public class Variables : MonoBehaviour
     [SerializeField]
     private GameObject[] weaponSkillVfx;
 
+    [Header("플레이어 애니메이터")]
+    [SerializeField]
+    private Animator playerAnim;
+
     public Collider[] AttackCollider => attackCollider;
     public GameObject[] WeaponVfx => weaponVfx;
     public GameObject[] WeaponSkillVfx => weaponSkillVfx;
+    public Animator PlayerAnim => playerAnim;
 
 
 }
