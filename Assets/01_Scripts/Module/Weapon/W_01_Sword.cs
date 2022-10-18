@@ -22,7 +22,7 @@ public class W_01_Sword : WeaponDefault
 
     public IEnumerator WeaponVfxPlay(int attackMove, WaitForSeconds delayTime)
     {
-        Variables.Instance.WeaponVfx[0].transform.localRotation = Quaternion.Euler(0, 0, attackMove % 2 * 180f);
+        Variables.Instance.WeaponVfx[0].transform.localRotation = Quaternion.Euler(0, 0, (attackMove + 1) % 2 * 180f);
 
         yield return delayTime;
 
