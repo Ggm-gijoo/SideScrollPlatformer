@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class W_02_Bow : WeaponDefault
 {
-    Animator playerAnim;
-    
+    private bool isCharged = false;
 
     public override void Attack(int attackMove, Action<int> Callback = null)
     {
@@ -15,13 +14,21 @@ public class W_02_Bow : WeaponDefault
 
     public override int ReturnAttackMove(int attackMove)
     {
-        attackMove = attackMove % 3 + 1;
+        if (isCharged)
+            attackMove = 2;
+        else
+            attackMove = 1;
         return attackMove;
     }
 
     private IEnumerator ChargeAttack(int attackMove, Action<int> CallBack)
     {
         Debug.Log("ChargeAttack S");
+
+        Variables.Instance.PlayerAnim.SetInteger("Action", 0);
+
+        Variables.Instance.PlayerAnim.SetTrigger("Trigger");
+
         float chargeTime = 0f;
 
         while (chargeTime <= 2f && Input.GetMouseButton(0))
@@ -29,9 +36,12 @@ public class W_02_Bow : WeaponDefault
             chargeTime += Time.deltaTime;
             yield return null;
         }
-
+        isCharged = false;
         if (chargeTime >= 2f)
+        {
             Debug.Log("Charged!");
+            isCharged = true;
+        }
 
         chargeTime = 0;
         

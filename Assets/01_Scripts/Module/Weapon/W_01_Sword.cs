@@ -20,9 +20,21 @@ public class W_01_Sword : WeaponDefault
         return attackMove;
     }
 
+    public override void Skill()
+    {
+        Variables.Instance.WeaponSkillVfx[(int)WeaponState.Sword]?.SetActive(true);
+        Time.timeScale = 0.7f;
+    }
+    public override void SkillEffect()
+    {
+        Time.timeScale = 1f;
+        Variables.Instance.WeaponSkillVfx[(int)WeaponState.Sword]?.SetActive(false);
+        Variables.Instance.WeaponSkillVfx[(int)WeaponState.Sword].transform.localPosition = Vector3.zero;
+    }
+
     public IEnumerator WeaponVfxPlay(int attackMove, WaitForSeconds delayTime)
     {
-        Variables.Instance.WeaponVfx[0].transform.localRotation = Quaternion.Euler(0, 0, (attackMove + 1) % 2 * 180f);
+        Variables.Instance.WeaponVfx[0].transform.localRotation = Quaternion.Euler(0, 0, attackMove % 2 * 180f);
 
         yield return delayTime;
 

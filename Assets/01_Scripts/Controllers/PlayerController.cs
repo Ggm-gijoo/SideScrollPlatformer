@@ -29,8 +29,9 @@ public class PlayerController : MonoBehaviour
     private bool isCanDash = false;
     private bool isDash = false;
     private bool isDodge = false;
-    public bool isLand = false;
-    private bool isSkill = false;
+
+    public bool IsLand = false;
+    public bool IsSkill = false;
 
     #region 메모리캐싱
     private const string _alpha = "_Alpha";
@@ -69,7 +70,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (!isAttack && !isDodge && !isSkill)
+        if (!isAttack && !isDodge && !IsSkill)
         {
             Move();
             Jump();
@@ -148,7 +149,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 3)
         {
-            isLand = false;
+            IsLand = false;
             if (jumpCount == 0)
             {
                 jumpCount += 2;
@@ -193,7 +194,7 @@ public class PlayerController : MonoBehaviour
 #region 공격
     public void Attack()
     {
-        if (Input.GetMouseButton(0) && isLand)
+        if (Input.GetMouseButton(0) && IsLand)
         {
             if (IsCanAct((int)weaponType + 5) && !isAttack)
             {
@@ -224,18 +225,15 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R) && !Variables.Instance.PlayerAnim.GetBool(_moving) && jumpCount == 0)
         {
-            isSkill = true;
-            Variables.Instance.WeaponSkillVfx[weaponStateValue]?.SetActive(true);
-            Time.timeScale = 0.7f;
-
+            IsSkill = true;
             Variables.Instance.PlayerAnim.SetInteger(_skill, 1);
             Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Skill);
+
+            weapons[weaponStateValue].GetComponent<WeaponDefault>().Skill();
             Variables.Instance.PlayerAnim.SetTrigger(_trigger, ()=>
             {
-                Time.timeScale = 1f;
-                Variables.Instance.WeaponSkillVfx[weaponStateValue]?.SetActive(false);
-                Variables.Instance.WeaponSkillVfx[weaponStateValue].transform.localPosition = Vector3.zero;
-                isSkill = false;
+                weapons[weaponStateValue].GetComponent<WeaponDefault>().SkillEffect();
+                IsSkill = false;
             },1.5f);
         }
     }
@@ -314,9 +312,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!isLand && collision.collider.CompareTag("Ground"))
+        if (!IsLand && collision.collider.CompareTag("Ground"))
         {
-            isLand = true;
+            IsLand = true;
             jumpCount = 0;
             Variables.Instance.PlayerAnim.SetTrigger(_trigger);
         }

@@ -36,7 +36,7 @@ public class PlatformChecker : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            playerMove.isLand = false;
+            playerMove.IsLand = false;
             playerAnim.SetInteger("TriggerNumber", (int)AnimState.Jump);
             playerMove.jumpCount = 2;
             playerAnim.SetTrigger("Trigger");
@@ -51,7 +51,7 @@ public class PlatformChecker : MonoBehaviour
                 isTriggered = true;
                 thisColl.isTrigger = true;
                 playerMove.jumpCount = 2;
-                playerMove.isLand = false;
+                playerMove.IsLand = false;
                 playerAnim.SetInteger("TriggerNumber", (int)AnimState.Jump);
                 playerAnim.SetTrigger("Trigger");
             }
