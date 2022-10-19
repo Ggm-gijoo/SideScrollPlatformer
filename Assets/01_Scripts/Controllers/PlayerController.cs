@@ -229,13 +229,16 @@ public class PlayerController : MonoBehaviour
             Variables.Instance.PlayerAnim.SetInteger(_skill, 1);
             Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Skill);
 
-            weapons[weaponStateValue].GetComponent<WeaponDefault>().Skill();
             Variables.Instance.PlayerAnim.SetTrigger(_trigger, ()=>
             {
                 weapons[weaponStateValue].GetComponent<WeaponDefault>().SkillEffect();
                 IsSkill = false;
             },1.5f);
         }
+    }
+    public void OnSkill()
+    {
+        weapons[weaponStateValue].GetComponent<WeaponDefault>().Skill();
     }
 #endregion
 #endregion

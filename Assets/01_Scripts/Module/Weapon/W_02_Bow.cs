@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class W_02_Bow : WeaponDefault
 {
+    [Header("차지 파티클")]
+    [SerializeField]
+    private ParticleSystem[] prepareParticles;
+    [SerializeField]
+    private ParticleSystem[] chargedParticles;
+
     private bool isCharged = false;
 
     public override void Attack(int attackMove, Action<int> Callback = null)
