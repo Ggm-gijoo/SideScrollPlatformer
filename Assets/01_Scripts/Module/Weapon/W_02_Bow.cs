@@ -37,21 +37,31 @@ public class W_02_Bow : WeaponDefault
 
         float chargeTime = 0f;
 
-        while (chargeTime <= 2f && Input.GetMouseButton(0))
+        foreach (ParticleSystem part in prepareParticles)
+            part.Play();
+        while (chargeTime <= 1.5f && Input.GetMouseButton(0))
         {
             chargeTime += Time.deltaTime;
             yield return null;
         }
+
         isCharged = false;
-        if (chargeTime >= 2f)
+        foreach (ParticleSystem part in prepareParticles)
+            part.Stop();
+
+        if (chargeTime >= 1.5f)
         {
             Debug.Log("Charged!");
             isCharged = true;
+            foreach (ParticleSystem part in chargedParticles)
+                part.Play();
         }
 
         chargeTime = 0;
         
         yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+        foreach (ParticleSystem part in chargedParticles)
+            part.Stop();
         CallBack?.Invoke(attackMove);
         Debug.Log("ChargeAttack E");
     }

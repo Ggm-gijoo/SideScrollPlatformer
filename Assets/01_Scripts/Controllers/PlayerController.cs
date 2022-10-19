@@ -80,30 +80,29 @@ public class PlayerController : MonoBehaviour
             {
                 attColl.enabled = false;
             }
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                switch (weaponState)
+                {
+                    case WeaponState.None:
+                        StartCoroutine(SummonWeapon());
+                        weaponType = WeaponType.Heavy;
+                        break;
+                    case WeaponState.Sword:
+                        weapons[1].SetActive(false);
+                        StartCoroutine(SummonWeapon());
+                        weaponType = WeaponType.Medium;
+                        break;
+                    case WeaponState.Bow:
+                        StartCoroutine(DisarmedWeapon());
+                        weaponType = WeaponType.Light;
+                        break;
+                }
+            }
         }
         if (!Variables.Instance.PlayerAnim.GetBool(_moving))
         {
             Attack();
-        }
-   
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            switch(weaponState)
-            {
-                case WeaponState.None:
-                    StartCoroutine(SummonWeapon());
-                    weaponType = WeaponType.Heavy;
-                    break;
-                case WeaponState.Sword:
-                    weapons[1].SetActive(false);
-                    StartCoroutine(SummonWeapon());
-                    weaponType = WeaponType.Medium;
-                    break;
-                case WeaponState.Bow:
-                    StartCoroutine(DisarmedWeapon());
-                    weaponType = WeaponType.Light;
-                    break;
-            }
         }
         Variables.Instance.PlayerAnim.SetInteger(_weapon, weaponStateValue);
     }
