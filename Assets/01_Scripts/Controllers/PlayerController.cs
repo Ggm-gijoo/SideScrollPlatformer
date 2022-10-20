@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (!isAttack && !isDodge && !IsSkill)
+        if (!isAttack && !isDodge && !IsSkill && Time.timeScale == 1)
         {
             Move();
             Jump();
