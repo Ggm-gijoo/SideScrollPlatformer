@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2604442690793959235}
   - component: {fileID: 2604442690793959234}
   - component: {fileID: 2604442690793959238}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Platform
-  m_TagString: Ground
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

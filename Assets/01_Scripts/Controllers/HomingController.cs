@@ -39,7 +39,7 @@ public class HomingController : MonoBehaviour
 
         foreach(var col in cols)
         {
-            if (col.CompareTag("Enemy"))
+            if (col.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 targetList.Add(col.transform);
             }

@@ -167,11 +167,13 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             isDodge = true;
+            Variables.Instance.PlayerAnim.gameObject.layer = LayerMask.NameToLayer("Dodge");
             Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Dodge);
             Variables.Instance.PlayerAnim.SetTrigger(_trigger,()=>
             {
+                Variables.Instance.PlayerAnim.gameObject.layer = LayerMask.NameToLayer("Player");
                 isDodge = false;
-            },1f
+            },0.8f
             );
         }
     }
@@ -314,7 +316,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!IsLand && collision.collider.CompareTag("Ground"))
+        if (!IsLand && collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             IsLand = true;
             jumpCount = 0;
