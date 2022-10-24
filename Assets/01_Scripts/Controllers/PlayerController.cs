@@ -164,9 +164,12 @@ public class PlayerController : MonoBehaviour
     }
     public void Dodge()
     {
+        float h = Input.GetAxisRaw("Horizontal") * 0.5f;
         if (Input.GetKeyDown(KeyCode.E))
         {
             isDodge = true;
+            if(h!= 0)
+            Variables.Instance.PlayerAnim.transform.localRotation = Quaternion.Euler(Vector3.up * Mathf.Sign(h) * 90f);
             Variables.Instance.PlayerAnim.gameObject.layer = LayerMask.NameToLayer("Dodge");
             Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Dodge);
             Variables.Instance.PlayerAnim.SetTrigger(_trigger,()=>
@@ -320,6 +323,7 @@ public class PlayerController : MonoBehaviour
         {
             IsLand = true;
             jumpCount = 0;
+            if(Variables.Instance.PlayerAnim.GetInteger(_triggerNum) == (int)AnimState.Jump)
             Variables.Instance.PlayerAnim.SetTrigger(_trigger);
         }
     }
