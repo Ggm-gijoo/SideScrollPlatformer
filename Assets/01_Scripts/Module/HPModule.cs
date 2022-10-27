@@ -18,6 +18,7 @@ public class HPModule : MonoBehaviour
     public void Damage(float damage)
     {
         nowHp = nowHp - damage < 0? 0 : nowHp - damage;
+
     }
     public void Heal(float heal)
     {

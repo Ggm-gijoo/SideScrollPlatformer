@@ -15,12 +15,11 @@ public class PlayerController : MonoBehaviour
     
     private Rigidbody playerRigid;
     #region 스테이터스
-    [Header("스테이터스")]
-    public float playerNowHp;
-    public float playerNowMp;
-    public float playerNowStamina;
+    [HideInInspector] public float playerNowHp;
+    [HideInInspector] public float playerNowMp;
+    [HideInInspector] public float playerNowStamina;
 
-    public int jumpCount = 0;
+    [HideInInspector] public int jumpCount = 0;
     private static int attackMove = 0;
     private int weaponStateValue = 0;
 
