@@ -13,6 +13,8 @@ public class W_02_Bow : WeaponDefault
 
     private bool isCharged = false;
 
+    public override float damage { get; set; } = 10;
+
     public override void Attack(int attackMove, Action<int> Callback = null)
     {
         StartCoroutine(ChargeAttack(attackMove, Callback));
@@ -21,7 +23,10 @@ public class W_02_Bow : WeaponDefault
     public override int ReturnAttackMove(int attackMove)
     {
         if (isCharged)
+        {
+            damage = 20;
             attackMove = 2;
+        }
         else
             attackMove = 1;
         return attackMove;

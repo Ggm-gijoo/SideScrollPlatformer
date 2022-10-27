@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class W_01_Sword : WeaponDefault
 {
+    public override float damage { get; set; } = 15f;
 
     public override void Attack(int attackMove, Action<int> Callback = null)
     {
