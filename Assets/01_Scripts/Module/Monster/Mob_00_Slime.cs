@@ -8,9 +8,6 @@ public class Mob_00_Slime : MonsterDefault
     private void Awake()
     {
         slimeAnim = GetComponent<Animator>();
-    }
-    private void Update()
-    {
         InvokeRepeating("Attack", 2f, 2f);
     }
     public override void Attack()
