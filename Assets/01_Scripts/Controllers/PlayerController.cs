@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
             {
                 Variables.Instance.PlayerAnim.gameObject.layer = LayerMask.NameToLayer("Player");
                 isDodge = false;
-            },0.8f
+            },0.6f
             );
         }
     }
