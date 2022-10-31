@@ -11,6 +11,7 @@ public class HomingController : MonoBehaviour
 {
     [SerializeField] private float homingRadius = 3f;
     [SerializeField] private CanvasGroup aimCanvas;
+    [SerializeField] private GameObject volumeDodge;
 
     private bool flag = false;
     private bool isHoming = false;
@@ -26,6 +27,8 @@ public class HomingController : MonoBehaviour
             else
                 flag = false;
         }
+
+        volumeDodge.SetActive(flag);
     }
     public void SetTarget(Transform target ,bool on = true)
     {
@@ -59,10 +62,12 @@ public class HomingController : MonoBehaviour
     {
         int idx = 0;
         float timer = 0;
+        float overTimer = 0;
         float h = Input.GetAxisRaw("Horizontal");
         while (flag)
         {
             timer += Time.unscaledDeltaTime;
+            overTimer += Time.unscaledDeltaTime;
             h = Input.GetAxisRaw("Horizontal");
             if (h != 0 && timer >= 0.2f)
             {
@@ -73,12 +78,22 @@ public class HomingController : MonoBehaviour
                     idx = ((int)h + idx) % targetList.Count;
                 SetTarget(targetList[idx].transform);
             }
+            if(overTimer >= 2f)
+            {
+                Time.timeScale = 1f;
+                SetTarget(targetList[idx].transform, false);
+                isHoming = false;
+                flag = false;
+            }
             yield return null;
         }
-        Time.timeScale = 1f;
-        transform.DOMove(targetList[idx].position - targetList[idx].right * 0.7f, 0.01f);
-        SetTarget(targetList[idx].transform, false);
-        isHoming = false;
+        if (isHoming)
+        {
+            Time.timeScale = 1f;
+            transform.DOMove(targetList[idx].position - targetList[idx].right * 0.7f, 0.01f);
+            SetTarget(targetList[idx].transform, false);
+            isHoming = false;
+        }
         
     }
 }

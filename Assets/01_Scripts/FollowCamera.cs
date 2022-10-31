@@ -10,12 +10,12 @@ public class FollowCamera : MonoBehaviour
 
     private void Awake()
     {
-        mainCam = Camera.main;
+        mainCam = GetComponent<Camera>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        mainCam.transform.position = playerTransform.position + camDistance;
+        mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, playerTransform.position + camDistance, 5f * Time.deltaTime);
     }
 }

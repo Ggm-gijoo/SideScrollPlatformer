@@ -177,7 +177,18 @@ public class PlayerController : MonoBehaviour
             Variables.Instance.PlayerAnim.SetTrigger(_trigger,()=>
             {
                 Variables.Instance.PlayerAnim.gameObject.layer = LayerMask.NameToLayer("Player");
-                isDodge = false;
+                if (jumpCount > 0)
+                {
+                    Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Jump);
+                    Variables.Instance.PlayerAnim.SetTrigger(_trigger);
+                }
+
+                Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Idle,()=>
+                {
+                    isDodge = false;
+                },0.2f
+                );
+
             },0.6f
             );
         }
