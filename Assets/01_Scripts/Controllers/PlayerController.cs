@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [Header("¹«±â")]
     [SerializeField] GameObject[] weapons;
 
+    ChararcterTrail chararcterTrail;
     Renderer[] weaponRenderer = new Renderer[100];
     
     private Rigidbody playerRigid;
@@ -50,6 +51,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         playerRigid = GetComponent<Rigidbody>();
+        chararcterTrail = GetComponent<ChararcterTrail>();
 
         int i = 0;
         foreach(var weapon in weapons)
@@ -167,6 +169,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             isDodge = true;
+            chararcterTrail.OnTrail(0.3f);
             if(h!= 0)
             Variables.Instance.PlayerAnim.transform.localRotation = Quaternion.Euler(Vector3.up * Mathf.Sign(h) * 90f);
             Variables.Instance.PlayerAnim.gameObject.layer = LayerMask.NameToLayer("Dodge");
