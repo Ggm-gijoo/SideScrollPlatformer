@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if (!Variables.Instance.PlayerAnim.GetBool(_moving))
+        if (!Variables.Instance.PlayerAnim.GetBool(_moving) && !isDodge && !IsSkill)
         {
             Attack();
         }

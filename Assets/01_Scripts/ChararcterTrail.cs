@@ -38,6 +38,7 @@ public class ChararcterTrail : MonoBehaviour
             foreach(var obj in skinnedMeshRenderers)
             {
                 GameObject gObj = new GameObject();
+                gObj.layer = LayerMask.NameToLayer("Spectrum");
                 gObj.transform.SetPositionAndRotation(instantiatePos.position, instantiatePos.rotation);
 
                 MeshRenderer renderer = gObj.AddComponent<MeshRenderer>();
