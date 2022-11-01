@@ -40,7 +40,7 @@ public class HomingController : MonoBehaviour
     }
     public void SetTarget(Transform target ,bool on = true)
     {
-        aimCanvas.transform.position = Camera.main.WorldToScreenPoint(target.position + Vector3.up);
+        aimCanvas.transform.position = Camera.main.WorldToScreenPoint(target.position + Vector3.up * target.localScale.y / 2);
         aimCanvas.alpha = on? 1 : 0;
     }
     public void OnHoming()

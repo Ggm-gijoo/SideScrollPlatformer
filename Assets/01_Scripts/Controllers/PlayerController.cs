@@ -120,11 +120,7 @@ public class PlayerController : MonoBehaviour
         {
             Variables.Instance.PlayerAnim.transform.localRotation = Quaternion.Euler(Vector3.up * Mathf.Sign(h) * 90f);
             Variables.Instance.PlayerAnim.SetFloat("Velocity Z", (playerRigid.velocity.x / playerStatus.MoveSpd) * Mathf.Sign(h));
-        }
-        else
-        {
-            Variables.Instance.PlayerAnim.SetFloat("Velocity Z", playerRigid.velocity.x / playerStatus.MoveSpd);
-        }    
+        }  
 
         playerRigid.velocity = new Vector3(h * playerStatus.MoveSpd, playerRigid.velocity.y, playerRigid.velocity.z);
 
@@ -142,8 +138,13 @@ public class PlayerController : MonoBehaviour
             }
             else
                 jumpCount++;
+
             Variables.Instance.PlayerAnim.SetInteger(_jumping, jumpCount);
+
+            playerRigid.velocity = Vector3.zero;
+            playerRigid.angularVelocity = Vector3.zero;
             playerRigid.AddForce(Vector3.up * playerStatus.JumpForce * 100f, ForceMode.Impulse);
+
             Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Jump);
             Variables.Instance.PlayerAnim.SetTrigger(_trigger);
         }
@@ -152,13 +153,16 @@ public class PlayerController : MonoBehaviour
     public void Dodge()
     {
         float h = Input.GetAxisRaw("Horizontal") * 0.5f;
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isDodge = true;
             chararcterTrail.OnTrail(0.3f);
+
             if(h!= 0)
             Variables.Instance.PlayerAnim.transform.localRotation = Quaternion.Euler(Vector3.up * Mathf.Sign(h) * 90f);
+
             Variables.Instance.PlayerAnim.gameObject.layer = LayerMask.NameToLayer("Dodge");
+
             Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Dodge);
             Variables.Instance.PlayerAnim.SetTrigger(_trigger,()=>
             {
@@ -179,7 +183,7 @@ public class PlayerController : MonoBehaviour
 #region АјАн
     public void Attack()
     {
-        if (Input.GetMouseButtonDown(0) && IsLand)
+        if (Input.GetKeyDown(KeyCode.A) && IsLand)
         {
             if (IsCanAct((int)weaponType + 5) && !isAttack)
             {
