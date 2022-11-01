@@ -26,8 +26,6 @@ public class PlayerController : MonoBehaviour
 
     private bool isAct = false;
     private bool isAttack = false;
-    private bool isCanDash = false;
-    private bool isDash = false;
     private bool isDodge = false;
 
     public bool IsLand = false;
@@ -117,7 +115,7 @@ public class PlayerController : MonoBehaviour
 #region ÀÌµ¿
     public void Move()
     {
-        float h = Input.GetAxisRaw("Horizontal") * 0.5f;
+        float h = Input.GetAxisRaw("Horizontal");
         if (h != 0 && jumpCount == 0)
         {
             Variables.Instance.PlayerAnim.transform.localRotation = Quaternion.Euler(Vector3.up * Mathf.Sign(h) * 90f);
@@ -128,19 +126,7 @@ public class PlayerController : MonoBehaviour
             Variables.Instance.PlayerAnim.SetFloat("Velocity Z", playerRigid.velocity.x / playerStatus.MoveSpd);
         }    
 
-        isCanDash = Input.GetKey(KeyCode.LeftShift) && Mathf.Abs(h) > Mathf.Epsilon && jumpCount == 0 && IsCanAct(1);
-        isAct = isCanDash;
-
-        if (isCanDash)
-        {
-            StartCoroutine(Dash());
-            playerRigid.velocity = new Vector3(h * playerStatus.MoveSpd * 2, playerRigid.velocity.y, playerRigid.velocity.z);
-        }
-        else
-        {
-            isDash = false;
-            playerRigid.velocity = new Vector3(h * playerStatus.MoveSpd, playerRigid.velocity.y, playerRigid.velocity.z);
-        }
+        playerRigid.velocity = new Vector3(h * playerStatus.MoveSpd, playerRigid.velocity.y, playerRigid.velocity.z);
 
         Variables.Instance.PlayerAnim.SetBool(_moving, Mathf.Abs(h) > Mathf.Epsilon);
     }
@@ -186,19 +172,6 @@ public class PlayerController : MonoBehaviour
 
             },0.4f
             );
-        }
-    }
-
-    public IEnumerator Dash()
-    {
-        if (!isDash)
-        {
-            isDash = true;
-            while (isCanDash)
-            {
-                yield return new WaitForSeconds(0.05f);
-                playerNowStamina -= 1f;
-            }
         }
     }
 #endregion
