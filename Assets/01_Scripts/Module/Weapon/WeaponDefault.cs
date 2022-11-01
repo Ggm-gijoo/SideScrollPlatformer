@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class WeaponDefault : MonoBehaviour
 {
-    public abstract float damage { get; set; }
+    public abstract float Damage { get; set; }
     public abstract void Attack(int attackMove, Action<int> Callback = null);
     public abstract int ReturnAttackMove(int attackMove);
     public virtual void Skill() { }

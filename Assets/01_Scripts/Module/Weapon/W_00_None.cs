@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class W_00_None : WeaponDefault
 {
-    public override float damage { get; set; } = 5f;
+    public override float Damage { get; set; } = 5f;
 
     public override void Attack(int attackMove, Action<int> Callback = null)
     {

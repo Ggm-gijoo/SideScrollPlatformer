@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if (!Variables.Instance.PlayerAnim.GetBool(_moving) && !isDodge && !IsSkill)
+        if (/*!Variables.Instance.PlayerAnim.GetBool(_moving) && */!isDodge && !IsSkill)
         {
             Attack();
         }
@@ -206,7 +206,7 @@ public class PlayerController : MonoBehaviour
 #region 공격
     public void Attack()
     {
-        if (Input.GetMouseButton(0) && IsLand)
+        if (Input.GetMouseButtonDown(0) && IsLand)
         {
             if (IsCanAct((int)weaponType + 5) && !isAttack)
             {
@@ -255,7 +255,7 @@ public class PlayerController : MonoBehaviour
 #endregion
 #endregion
 
-    #region 시스템
+#region 시스템
     public IEnumerator RecoveryStamina()
     {
         while (true)

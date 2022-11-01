@@ -13,10 +13,18 @@ public class HomingController : MonoBehaviour
     [SerializeField] private CanvasGroup aimCanvas;
     [SerializeField] private GameObject volumeDodge;
 
+    private Animator aimAnim;
     private bool flag = false;
     private bool isHoming = false;
 
     private List<Transform> targetList = new List<Transform>();
+
+    private int _hashRotate = Animator.StringToHash("Rotate");
+
+    private void Awake()
+    {
+        aimAnim = aimCanvas.GetComponent<Animator>();
+    }
 
     private void Update()
     {
@@ -53,6 +61,8 @@ public class HomingController : MonoBehaviour
             Time.timeScale = 0.01f;
             flag = true;
             StartCoroutine(SelectTarget());
+
+            aimAnim.SetTrigger(_hashRotate);
             SetTarget(targetList[0].transform);
         }
         else
@@ -72,10 +82,13 @@ public class HomingController : MonoBehaviour
             if (h != 0 && timer >= 0.2f)
             {
                 timer = 0f;
-                if ((int)h + idx < 0)
-                    idx = targetList.Count - 1;
-                else
-                    idx = ((int)h + idx) % targetList.Count;
+                idx = (int)Mathf.Repeat((int)h + idx, targetList.Count);
+                //if ((int)h + idx < 0)
+                //    idx = targetList.Count - 1;
+                //else
+                //    idx = ((int)h + idx) % targetList.Count;
+
+                aimAnim.SetTrigger(_hashRotate);
                 SetTarget(targetList[idx].transform);
             }
             if(overTimer >= 2f)

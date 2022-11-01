@@ -17,7 +17,7 @@ public abstract class MonsterDefault : MonoBehaviour
     {
         if(other.CompareTag("weapon"))
         {
-            hpModule.Damage(other.GetComponent<WeaponDefault>().damage);
+            hpModule.Damage(other.GetComponent<WeaponDefault>().Damage);
         }
     }
 }

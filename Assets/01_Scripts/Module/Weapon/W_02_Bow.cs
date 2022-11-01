@@ -13,7 +13,7 @@ public class W_02_Bow : WeaponDefault
 
     private bool isCharged = false;
 
-    public override float damage { get; set; } = 10;
+    public override float Damage { get; set; } = 10;
 
     public override void Attack(int attackMove, Action<int> Callback = null)
     {
@@ -24,7 +24,7 @@ public class W_02_Bow : WeaponDefault
     {
         if (isCharged)
         {
-            damage = 20;
+            Damage = 20;
             attackMove = 2;
         }
         else
