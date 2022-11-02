@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Variables : MonoBehaviour
 {
@@ -34,19 +35,19 @@ public class Variables : MonoBehaviour
 
     [Header("무기 VFX")]
     [SerializeField]
-    private GameObject[] weaponVfx;
+    private VisualEffect[] weaponVfx;
 
     [Header("무기 스킬 VFX")]
     [SerializeField]
-    private GameObject[] weaponSkillVfx;
+    private VisualEffect[] weaponSkillVfx;
 
     [Header("플레이어 애니메이터")]
     [SerializeField]
     private Animator playerAnim;
 
     public Collider[] AttackCollider => attackCollider;
-    public GameObject[] WeaponVfx => weaponVfx;
-    public GameObject[] WeaponSkillVfx => weaponSkillVfx;
+    public VisualEffect[] WeaponVfx => weaponVfx;
+    public VisualEffect[] WeaponSkillVfx => weaponSkillVfx;
     public Animator PlayerAnim => playerAnim;
 
 

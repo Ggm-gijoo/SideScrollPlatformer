@@ -23,13 +23,12 @@ public class W_01_Sword : WeaponDefault
 
     public override void Skill()
     {
-        Variables.Instance.WeaponSkillVfx[(int)WeaponState.Sword]?.SetActive(true);
+        Variables.Instance.WeaponSkillVfx[(int)WeaponState.Sword]?.Play();
         Time.timeScale = 0.7f;
     }
     public override void SkillEffect()
     {
         Time.timeScale = 1f;
-        Variables.Instance.WeaponSkillVfx[(int)WeaponState.Sword]?.SetActive(false);
         Variables.Instance.WeaponSkillVfx[(int)WeaponState.Sword].transform.localPosition = Vector3.zero;
     }
 
@@ -39,12 +38,8 @@ public class W_01_Sword : WeaponDefault
 
         yield return delayTime;
 
-        Variables.Instance.WeaponVfx[0].gameObject.SetActive(true);
+        Variables.Instance.WeaponVfx[0].Play();
 
         Managers.Sound.Play($"Player/Sword{Random.Range(1, 7)}");
-
-        yield return delayTime;
-
-        Variables.Instance.WeaponVfx[0].gameObject.SetActive(false);
     }
 }

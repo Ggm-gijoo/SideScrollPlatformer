@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
             weapon.SetActive(false);
             i++;
         }
-        Variables.Instance.WeaponVfx[0].gameObject.SetActive(false);
+        Variables.Instance.WeaponVfx[0].gameObject.SetActive(true);
 
         playerNowHp = playerStatus.Hp;
         playerNowMp = playerStatus.Mp;
@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A) && IsLand)
         {
-            if (IsCanAct((int)weaponType + 5) && !isAttack)
+            if (IsCanAct((int)weaponType + 5) && !isAttack && !Variables.Instance.PlayerAnim.GetBool(_moving))
             {
                 isAttack = true;
                 playerNowStamina -= (int)weaponType + 5;
@@ -206,12 +206,24 @@ public class PlayerController : MonoBehaviour
                     Variables.Instance.PlayerAnim.SetTrigger(_trigger, () =>
                     {
                         isAttack = false;
-                        Variables.Instance?.WeaponVfx?[0]?.gameObject.SetActive(false);
                     }, (float)weaponType * 0.2f + 0.6f
                     );
                 });
 
             }
+            else if (IsCanAct((int)weaponType + 5) && !isAttack)
+            {
+                isAttack = true;
+                playerNowStamina -= (int)weaponType + 5;
+
+                Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Attack);
+                Variables.Instance.PlayerAnim.SetTrigger(_trigger, () =>
+                {
+                    isAttack = false;
+                }, (float)weaponType * 0.2f + 0.6f
+                    );
+
+            }    
         }
     }
 
