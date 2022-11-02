@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [Header("¹«±â")]
     [SerializeField] GameObject[] weapons;
 
+    [SerializeField][ColorUsage(true, true, 1,1,1,1)] Color whiteColor;
     ChararcterTrail chararcterTrail;
     Renderer[] weaponRenderer = new Renderer[100];
     
@@ -156,6 +157,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isDodge = true;
+            if (weaponRenderer[weaponStateValue] != null)
+                chararcterTrail.mat.SetColor("_GColor", weaponRenderer[weaponStateValue].material.color);
+            else
+                chararcterTrail.mat.SetColor("_GColor", whiteColor);
             chararcterTrail.OnTrail(0.3f);
 
             if(h!= 0)
