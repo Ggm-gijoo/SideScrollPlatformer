@@ -44,7 +44,7 @@ public class W_02_Bow : WeaponDefault
 
         foreach (ParticleSystem part in prepareParticles)
             part.Play();
-        while (chargeTime <= 1.5f && Input.GetMouseButton(0))
+        while (chargeTime <= 1.5f && Input.GetKey(KeyCode.A))
         {
             chargeTime += Time.deltaTime;
             yield return null;
@@ -64,7 +64,7 @@ public class W_02_Bow : WeaponDefault
 
         chargeTime = 0;
         
-        yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
+        yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.A));
         foreach (ParticleSystem part in chargedParticles)
             part.Stop();
         CallBack?.Invoke(attackMove);

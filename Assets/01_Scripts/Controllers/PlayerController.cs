@@ -188,7 +188,7 @@ public class PlayerController : MonoBehaviour
 #region АјАн
     public void Attack()
     {
-        if (Input.GetKeyDown(KeyCode.A) && IsLand)
+        if (Input.GetKey(KeyCode.A) && IsLand)
         {
             if (IsCanAct((int)weaponType + 5) && !isAttack && !Variables.Instance.PlayerAnim.GetBool(_moving))
             {
