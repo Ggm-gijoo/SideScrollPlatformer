@@ -28,11 +28,9 @@ public class HomingController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            if (!isHoming)
-                OnHoming();
-            else
+             if(isHoming)
                 flag = false;
         }
 
