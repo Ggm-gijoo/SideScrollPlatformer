@@ -61,6 +61,11 @@ public class PlayerController : MonoBehaviour
         }
         Variables.Instance.WeaponVfx[0].gameObject.SetActive(true);
 
+        foreach (var attColl in Variables.Instance.AttackCollider)
+        {
+            attColl.enabled = false;
+        }
+
         playerNowHp = playerStatus.Hp;
         playerNowMp = playerStatus.Mp;
         playerNowStamina = playerStatus.Stamina;
@@ -70,16 +75,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        Variables.Instance.PlayerAnim.transform.position = ClampPos(Variables.Instance.PlayerAnim.transform.position);
         if (!isAttack && !isDodge && !IsSkill && Time.timeScale == 1)
         {
             Move();
             Jump();
             Dodge();
             Skill();
-            foreach (var attColl in Variables.Instance.AttackCollider)
-            {
-                attColl.enabled = false;
-            }
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 switch (weaponState)
@@ -220,7 +222,7 @@ public class PlayerController : MonoBehaviour
                 Variables.Instance.PlayerAnim.SetTrigger(_trigger, () =>
                 {
                     isAttack = false;
-                }, (float)weaponType * 0.2f + 0.6f
+                }, (float)weaponType * 0.3f + 0.6f
                     );
 
             }    
@@ -261,6 +263,15 @@ public class PlayerController : MonoBehaviour
                 yield return new WaitForSeconds(0.05f);
             }
         }
+    }
+    public Vector3 ClampPos(Vector3 pos)
+    {
+        return new Vector3(
+            pos.x
+            , pos.y
+            , Mathf.Clamp(pos.z, 0f, 0f)
+            );
+
     }
     #region 무기 소환, 해제
     public IEnumerator SummonWeapon()
