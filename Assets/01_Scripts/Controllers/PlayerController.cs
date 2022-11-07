@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,7 +14,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField][ColorUsage(true, true, 1,1,1,1)] Color whiteColor;
     ChararcterTrail chararcterTrail;
-    Renderer[] weaponRenderer = new Renderer[100];
+    Renderer[][] weaponRenderer = new Renderer[100][];
+    List<List<Renderer>> weaponRenderers = new List<List<Renderer>>();
+    Dictionary<int, Renderer[]> weaponRenders = new Dictionary<int, Renderer[]>();
     
     private Rigidbody playerRigid;
     #region 스테이터스
@@ -55,7 +58,8 @@ public class PlayerController : MonoBehaviour
         int i = 0;
         foreach(var weapon in weapons)
         {
-            weaponRenderer[i] = weapon.GetComponent<MeshRenderer>();
+            weaponRenderer[i] = weapon.GetComponentsInChildren<MeshRenderer>();
+            weaponRenders.Add(i, weapon.GetComponentsInChildren<MeshRenderer>());
             weapon.SetActive(false);
             i++;
         }
@@ -102,7 +106,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if (/*!Variables.Instance.PlayerAnim.GetBool(_moving) && */!isDodge && !IsSkill)
+        if (!isDodge && !IsSkill)
         {
             Attack();
         }
@@ -159,8 +163,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isDodge = true;
-            if (weaponRenderer[weaponStateValue] != null)
-                chararcterTrail.mat.SetColor("_GColor", weaponRenderer[weaponStateValue].material.color);
+            if (weaponRenderer[weaponStateValue].Length > 0)
+                chararcterTrail.mat.SetColor("_GColor", weaponRenderer[weaponStateValue][0].material.color);
             else
                 chararcterTrail.mat.SetColor("_GColor", whiteColor);
             chararcterTrail.OnTrail(0.3f);
@@ -299,7 +303,8 @@ public class PlayerController : MonoBehaviour
             {
                 yield return new WaitForSeconds(0.05f);
                 timer -= 0.1f;
-                weaponRenderer[weaponStateValue]?.material.SetFloat(_alpha, timer);
+                weaponRenderer[weaponStateValue].ToList().ForEach(x => x.material.SetFloat(_alpha, timer));
+                //weaponRenderer[weaponStateValue][0]?.material.SetFloat(_alpha, timer);
             }
         }
     }
@@ -311,7 +316,8 @@ public class PlayerController : MonoBehaviour
         {
             yield return new WaitForSeconds(0.05f);
             timer += 0.2f;
-            weaponRenderer[weaponStateValue - 1].material.SetFloat(_alpha, timer);
+            weaponRenderer[weaponStateValue - 1].ToList().ForEach(x => x.material.SetFloat(_alpha, timer));
+            //weaponRenderer[weaponStateValue - 1][0].material.SetFloat(_alpha, timer);
         }
 
         weaponState = WeaponState.None;
