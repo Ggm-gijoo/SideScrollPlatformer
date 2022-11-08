@@ -29,11 +29,8 @@ public class PlayerController : MonoBehaviour
     private int weaponStateValue = 0;
 
     private bool isAct = false;
-    private bool isAttack = false;
-    private bool isDodge = false;
 
     public bool IsLand = false;
-    public bool IsSkill = false;
 
     #region ¸Þ¸ð¸®Ä³½Ì
     private const string _alpha = "_Alpha";
@@ -80,9 +77,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Variables.Instance.PlayerAnim.transform.position = ClampPos(Variables.Instance.PlayerAnim.transform.position);
-        if (!isAttack && !isDodge && !IsSkill && Time.timeScale == 1)
+        if (!isAct && Time.timeScale == 1)
         {
-            Move();
             Jump();
             Dodge();
             Skill();
@@ -106,11 +102,15 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if (!isDodge && !IsSkill)
+        if (!isAct)
         {
             Attack();
         }
         Variables.Instance.PlayerAnim.SetInteger(_weapon, weaponStateValue);
+    }
+    private void FixedUpdate()
+    {
+        Move();
     }
     public bool IsCanAct(float useStamina)
     {
@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal") * 0.5f;
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            isDodge = true;
+            isAct = true;
             if (weaponRenderer[weaponStateValue].Length > 0)
                 chararcterTrail.mat.SetColor("_GColor", weaponRenderer[weaponStateValue][0].material.color);
             else
@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
                 Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Idle,()=>
                 {
-                    isDodge = false;
+                    isAct = false;
                 },0.4f
                 );
 
@@ -196,9 +196,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A) && IsLand)
         {
-            if (IsCanAct((int)weaponType + 5) && !isAttack && !Variables.Instance.PlayerAnim.GetBool(_moving))
+            if (IsCanAct((int)weaponType + 5) && !isAct && !Variables.Instance.PlayerAnim.GetBool(_moving))
             {
-                isAttack = true;
+                isAct = true;
                 playerNowStamina -= (int)weaponType + 5;
 
                 Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Attack);
@@ -211,21 +211,21 @@ public class PlayerController : MonoBehaviour
 
                     Variables.Instance.PlayerAnim.SetTrigger(_trigger, () =>
                     {
-                        isAttack = false;
+                        isAct = false;
                     }, (float)weaponType * 0.2f + 0.6f
                     );
                 });
 
             }
-            else if (IsCanAct((int)weaponType + 5) && !isAttack)
+            else if (IsCanAct((int)weaponType + 5) && !isAct)
             {
-                isAttack = true;
+                isAct = true;
                 playerNowStamina -= (int)weaponType + 5;
 
                 Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Attack);
                 Variables.Instance.PlayerAnim.SetTrigger(_trigger, () =>
                 {
-                    isAttack = false;
+                    isAct = false;
                 }, (float)weaponType * 0.3f + 0.6f
                     );
 
@@ -237,14 +237,14 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R) && !Variables.Instance.PlayerAnim.GetBool(_moving) && jumpCount == 0)
         {
-            IsSkill = true;
+            isAct = true;
             Variables.Instance.PlayerAnim.SetInteger(_skill, 1);
             Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Skill);
 
             Variables.Instance.PlayerAnim.SetTrigger(_trigger, ()=>
             {
                 weapons[weaponStateValue].GetComponent<WeaponDefault>().SkillEffect();
-                IsSkill = false;
+                isAct = false;
             },1.5f);
         }
     }
