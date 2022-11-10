@@ -10,13 +10,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerStatus playerStatus;
 
     [Header("무기")]
-    [SerializeField] GameObject[] weapons;
+    [SerializeField] private GameObject[] weapons;
 
-    [SerializeField][ColorUsage(true, true, 1,1,1,1)] Color whiteColor;
-    ChararcterTrail chararcterTrail;
+    [Header("중력가속도")]
+    [SerializeField] private float fallMultiplier = 2.5f; 
+
+    [Header("캐릭터 트레일 기본 색")]
+    [SerializeField][ColorUsage(true, true, 1,1,1,1)] Color defaultColor;
+    private ChararcterTrail chararcterTrail;
     Renderer[][] weaponRenderer = new Renderer[100][];
-    List<List<Renderer>> weaponRenderers = new List<List<Renderer>>();
-    Dictionary<int, Renderer[]> weaponRenders = new Dictionary<int, Renderer[]>();
+
     
     private Rigidbody playerRigid;
     #region 스테이터스
@@ -56,7 +59,6 @@ public class PlayerController : MonoBehaviour
         foreach(var weapon in weapons)
         {
             weaponRenderer[i] = weapon.GetComponentsInChildren<MeshRenderer>();
-            weaponRenders.Add(i, weapon.GetComponentsInChildren<MeshRenderer>());
             weapon.SetActive(false);
             i++;
         }
@@ -110,7 +112,8 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Move();
+        if(!isAct)
+            Move();
     }
     public bool IsCanAct(float useStamina)
     {
@@ -132,6 +135,9 @@ public class PlayerController : MonoBehaviour
         playerRigid.velocity = new Vector3(h * playerStatus.MoveSpd, playerRigid.velocity.y, playerRigid.velocity.z);
 
         Variables.Instance.PlayerAnim.SetBool(_moving, Mathf.Abs(h) > Mathf.Epsilon);
+
+        if (playerRigid.velocity.y < 0)
+            playerRigid.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
     }
 
     public void Jump()
@@ -166,7 +172,7 @@ public class PlayerController : MonoBehaviour
             if (weaponRenderer[weaponStateValue].Length > 0)
                 chararcterTrail.mat.SetColor("_GColor", weaponRenderer[weaponStateValue][0].material.color);
             else
-                chararcterTrail.mat.SetColor("_GColor", whiteColor);
+                chararcterTrail.mat.SetColor("_GColor", defaultColor);
             chararcterTrail.OnTrail(0.3f);
 
             if(h!= 0)
@@ -175,6 +181,10 @@ public class PlayerController : MonoBehaviour
             Variables.Instance.PlayerAnim.gameObject.layer = LayerMask.NameToLayer("Dodge");
 
             Variables.Instance.PlayerAnim.SetInteger(_triggerNum, (int)AnimState.Dodge);
+
+            playerRigid.velocity = Vector3.zero;
+            playerRigid.angularVelocity = Vector3.zero;
+            
             Variables.Instance.PlayerAnim.SetTrigger(_trigger,()=>
             {
                 Variables.Instance.PlayerAnim.gameObject.layer = LayerMask.NameToLayer("Player");
@@ -226,7 +236,7 @@ public class PlayerController : MonoBehaviour
                 Variables.Instance.PlayerAnim.SetTrigger(_trigger, () =>
                 {
                     isAct = false;
-                }, (float)weaponType * 0.3f + 0.6f
+                }, (float)weaponType * 0.35f + 0.65f
                     );
 
             }    
@@ -304,7 +314,6 @@ public class PlayerController : MonoBehaviour
                 yield return new WaitForSeconds(0.05f);
                 timer -= 0.1f;
                 weaponRenderer[weaponStateValue].ToList().ForEach(x => x.material.SetFloat(_alpha, timer));
-                //weaponRenderer[weaponStateValue][0]?.material.SetFloat(_alpha, timer);
             }
         }
     }
@@ -317,7 +326,6 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
             timer += 0.2f;
             weaponRenderer[weaponStateValue - 1].ToList().ForEach(x => x.material.SetFloat(_alpha, timer));
-            //weaponRenderer[weaponStateValue - 1][0].material.SetFloat(_alpha, timer);
         }
 
         weaponState = WeaponState.None;
