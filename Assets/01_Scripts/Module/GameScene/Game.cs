@@ -13,7 +13,7 @@ public class Game : Base
         List<GameObject> list = new List<GameObject>();
         for (int i = 0; i < 10; i++)
         {
-            list.Add(Managers.Resource.Instantiate("Monster"));
+            list.Add(Managers.Resource.Instantiate("Mob"));
         }
         Debug.Log(list.Count);
         for(int i = 0; i < 5; i++)

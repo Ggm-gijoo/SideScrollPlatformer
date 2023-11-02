@@ -50,8 +50,6 @@ public class ChararcterTrail : MonoBehaviour
                 filter.mesh = mesh;
                 renderer.material = mat;
 
-                StartCoroutine(AnimMatFloat(mat));
-
                 Destroy(gObj, meshDestroyDelay);
             }
 
@@ -61,8 +59,4 @@ public class ChararcterTrail : MonoBehaviour
         isTrailActive = false;
     }
 
-    private IEnumerator AnimMatFloat(Material mat, float goal = 0f, float rate = 0f, float refresh = 0f)
-    {
-        yield return null;
-    }
 }
